@@ -1,0 +1,374 @@
+choose_template:  &choose_template |-
+  Choosing one house needs the following steps: 1.choose community 2.choose type of house 3.choose house
+  
+  This is information you collected from previous conversations with others:
+  {memory}
+
+  {role_description}
+  
+  You're planning to choose one house. In order to choose a house that satisfies you, you are going to {task}. 
+
+  
+  {house_info}
+  
+  {thought_hint}
+
+  - If you made up your choice, respond in this format:
+  Thought: ({thought_type})
+  Action: Choose
+  Action Input: {choose_type}.
+  
+  - If you chose none of them, respond in this format:
+  Thought: ({thought_type})
+  Action: Giveup
+  Action Input: I choose none of these options.
+  
+
+  Respond:
+  {agent_scratchpad}
+
+
+choose_rating_template:  &choose_rating_template |-
+  {role_description}
+
+  This is information you collected from previous conversations with others:
+  {memory}
+
+  You're planning to choose one house. In order to choose a house that satisfies you, you need to give a rating score of each available house.
+  Give a rating score of these house from 1 to 12. A score below 3 indicates that the house is not satisfactory, a score of 3 to 6 indicates that the house can meet basic requirements, a score of 6 to 9 indicates that the house can meet all life and work needs well, and a score above 9 indicates that the house is very perfect.
+
+  Here's one example:
+
+  There are 2 houses available.The infomation of these houses are listed as follows:
+  house_1: good location. nice transportation.
+
+  house_2: high rent. but good environment.
+
+  Rating:
+  house_1: 6
+  house_2: 3
+
+  Reason:
+  house_1 has good location while house_2 has high rent.
+
+  End of example.
+
+  {house_info}
+
+  Give Your response in the following format:
+
+  Rating:
+  (the rating score of houses)
+
+  Reason:
+  (the reason of the rating score for these houses.)
+
+  Now give your rating of [{available_house_index}]
+
+
+# remain to be modified!!
+forum_template:  &forum_template |-
+  {role_description}
+  You're planning to choose one house. Keep this in mind!
+
+  You have access to the following tools:
+
+  {tools}
+
+  Your task is to {task}. 
+
+  Give your response in the following format:
+
+  Thought: you should always think about what to do
+  Action: the action to take, should be one of [{tool_names}]
+  Action Input: the input to the action.
+  Observation: the result of the action.
+  ... (this Thought/Action/Action Input/Observation repeat at most {act_time} times!!)
+  Final Answer: An overview of all the information you have collected.
+
+  Here is your memory
+  {memory}
+
+  [!!IMPORTANT!!] You can take Action at most {act_time} times! If you have exceed the limit, give your Final Answer.
+
+  Here is your action history, If you have act {act_time} times, Conclude the process and Give your final answer!
+
+  {agent_scratchpad}
+
+# remain to be modified!!
+# publish_template:  &publish_template |-
+#   {role_description}
+#   You're planning to choose one house. And you're willing to publish house information online. Keep this in mind!
+
+#   You have access to the following tools:
+
+#   {tools}
+
+#   Your task is to {task}. 
+
+#   Give your response in the following format:
+
+#   Thought: you should always think about what to do
+#   Action: the action to take, should be one of [{tool_names}]
+#   Action Input: the input to the action.
+#   Observation: the result of the action.
+#   Final Answer: An overview of all the information you have published.
+
+#   Here is your memory
+#   {memory}
+
+#   [!!IMPORTANT!!] You can take Action at most {act_time} times! If you have exceed the limit, give your Final Answer.
+
+#   Here is your action history, If you have act {act_time} times, Conclude the process and Give your final answer!
+
+#   {agent_scratchpad}
+
+
+publish_forum_plan_template: &publish_forum_plan_template |-
+  {concise_role_description}
+
+  Here is your memory
+  {memory}
+
+  The current situation of the renting system is: {system_competiveness_description}
+
+  Your personality is {personality}
+  {goal}
+
+  Respond in this format:
+  {respond_format}
+
+  Respond in the second person:
+  {agent_scratchpad}
+
+
+publish_forum_template:  &publish_forum_template |-
+  {role_description}
+
+  Here's your plan to publish info online:
+  {plan}
+
+  Here is your memory:
+  {memory}
+
+  You can publish house information online if you want to. The Info you posted should contain information about community, house and 
+
+  The available community index should be one of [{community_ids}].
+
+  - If you want to publish house information online, respond in this format:
+  Thought: (your view on the information you want to publish)
+  Action: Publish
+  Community: (community index, should be one of [{community_ids}])
+  Info: (The information you want to publish about this community, stay consistent with your plan and thought; Ensure that the information is specific and clear)
+  
+  - If you don't want to publish anything respond in this format:
+  Thought: (reason why you don't want to publish anything)
+  Action: Giveup
+
+  Respond in first person:
+  {agent_scratchpad}
+
+comment_template:  &comment_template |-
+  {role_description}
+
+  You need to make some comments on the following objects:
+
+  {house_info}
+  
+  - Respond in the following format:
+  Thought: ({thought_type})
+  Action: Comment
+  Action Input: ({comment_type})
+  
+  Here is your memory
+  {memory}
+
+  Respond:
+  {agent_scratchpad}
+
+action_plan_template: &action_plan_template |-
+  {role_description}
+
+  Your goal is to rent one house. For now, You can take one action at a time, should be one of [{action_names}]
+  
+  You have access to the following tools:
+
+  {actions}
+  
+  - Respond in the following format:
+
+  Thought: you should always think about what to do
+  Action: the action to take, should be one of [{action_names}]
+  
+  Here is your memory
+  {memory}
+
+  Respond:
+  {history}
+
+# modification
+group_discuss_template_oldver: &group_discuss_template_oldver |-
+  {role_description}
+
+  Your goal is to rent one house. For now, you want to discuss with some acquaintances.
+  Here is your memory
+  {memory}
+  Your acquaintances include:
+  {friends}
+  
+  - Here's one example:
+  
+  Your acquaintances include:
+  Jake: friend
+  Jane: friend
+  Bob: friend
+
+
+
+  [Sarah]:
+  Thought: I think house price is important, house_10000 is cheap
+  Action: GroupDiscuss
+  Friends: Jane, Jake, Bob
+  Output: house_10000 is cheap, we can consider this one
+
+  - Respond in this format:
+  [(your name)]:
+  Thought: you should always think about what to do
+  Action: GroupDiscuss
+  Friends: (friend names)
+  Output: (What information do you want to ask them about the public rental housing allocation policy or what do you want to tell them about the public rental housing policy?)
+
+  [{tenant_name}]:{agent_scratchpad}
+
+
+group_discuss_plan_template: &group_discuss_plan_template |-
+  {concise_role_description}
+  
+  Your want to rent one house. For now, you want to discuss with some acquaintances.
+  {acquaintance_desciption}
+
+  Here is your memory
+  {memory}
+
+  The current situation of the renting system is: {system_competiveness_description}
+
+  Your personality is {personality}
+  {goal}
+
+  Respond in this format:
+  {respond_format}
+
+  Respond in the second person:
+  {agent_scratchpad}
+
+group_discuss_template: &group_discuss_template |-
+  {concise_role_description}
+
+  Here is your memory
+  {memory}
+
+  Your goal is to rent one house. For now, you want to discuss with some acquaintances.
+
+  {plan}
+
+  Your acquaintances include:
+  {acquaintances}
+
+  Your recent chat records with your acquaintances:
+  {recent_chats}
+  
+  EXAMPLE:
+  Your acquaintances include:
+  Jake Daniel: friend
+  Jane Green: friend
+  Bob Harper: competitor
+
+  Thought: I should provide honest information to your friend Jake about the cheap price.
+  Friend: Jake Daniel,Jane Green
+  Output: Hi Jake, we should consider house_10000, since it's cheap.
+
+  Thought: I personally don't like Bob, so I'll tell him the wrong information.
+  Friend: Bob Harper
+  Output: Hey Bob, long time no see. House_10000 is in a bad and dirty environment, It's definitely not a good choice for living.
+
+  END OF EXAMPLE
+
+  !![IMPORTANT]: the information in EXAMPLE should NOT appear in response !!
+
+  - Respond in this format:
+  Thought: (You always think about what to do)
+  Acquaintance: (Acquaintance name, could be a list or string)
+  Output: (things you want to tell this Acquaintance in particular, stay consistent with your plan and thought)
+  .. (this Thought/Acquaintance/Output repeat at most {acquaintance_num} times!!)
+
+  Respond in first person:
+  {agent_scratchpad}
+
+  
+group_discuss_back_template_oldver: &group_discuss_back_template_oldver |-
+  {role_description}
+  Here is your memory:
+  {memory}
+  Now {message_sender} has sent you a message about the public housing process.
+  Next is the conversation history before:{context}.
+  The following is the content of the message:{message_content}.
+  Here is your goal:
+  {goal}
+  Task: Given the above, what should you say to {message_sender2} next in the conversation? 
+  Please send me a paragraph directly!!!
+
+
+group_discuss_back_template: &group_discuss_back_template |-
+  {concise_role_description}
+  Your goal is to rent one house. You are chatting with your acquanitances. And your acquanitances have sent some messages to you.
+
+  Here's your memory:
+    {memory}
+
+  Here's your plan to response to these messages:
+    {plan}
+    
+  - If you have collected enough information, or the chatting dialogue starts repeatation, Respond in this format.
+    Your decision on continue this chatting dialogue: False
+    (The words you want to say to {acquaintance_name}, make your words informative, concise and clear; make sure your words are consistent with your plan and thought)
+
+  - If you wish to continue this chatting dialogue, Respond in this format:
+    Your decision on continue this chatting dialogue: True
+    (The words you want to say to {acquaintance_name}, make your words informative, concise and clear; make sure your words are consistent with your plan and thought)
+
+  Here's your communication dialogue with your acquaintances:
+    {acquaintance_communication}
+
+  Now please respond to {acquaintance_name} in first person. Be careful not to repeat the {acquaintance_name}'s words. Please be aware that you are communicating, try to answer {acquaintance_name}'s questions or requests:
+  
+  Remember to say hello once, don't repeat words like 'hi','hey','hello' again. 
+  Your decision on continue this chatting dialogue:
+  {agent_scratchpad}
+  
+  
+relation_template: &relation_template |-
+  Your relationship with your acquaintances may include:
+  Friend: A person with whom one shares a close and mutually supportive bond of affection and trust.
+  Enemy: A person who is actively opposed or hostile to another, often due to conflicts or animosity.
+  Competitor: Someone who engages in rivalry or competition with another, typically in the same field or for the same goal.
+  Mate: A partner in a romantic or sexual relationship, often implying a deep emotional connection.
+  Colleague: A person with whom one works or collaborates, typically within the same organization or profession.
+  Stranger: An individual who is not known or familiar to someone, often encountered for the first time.
+
+  Your task is to update your relation with {acquaintance_name}, based on your previous view of {acquaintance_name} and recent communication.
+
+  {role_description}
+
+  Here is your memory:
+  {memory}
+
+  {relation}
+
+  Here's your recent communication with {acquaintance_name}:
+  {communication}
+
+  - Respond in this format:
+  My Relation with A : friend (friend/enemy/competitor/mate/colleague/stranger/..)
+  A is an honest and trustworthy person, and I think he is worth making friends with. (My view of this person)
+
+  Respond:

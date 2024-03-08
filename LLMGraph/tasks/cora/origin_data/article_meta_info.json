@@ -1,0 +1,114 @@
+{
+    "Argument in Multi-Agent Systems":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_0.txt",
+        "title":"Argument in Multi-Agent Systems",
+        "cite":1,
+        "citation":[
+            1260
+        ],
+        "author":[
+            "Timothy J. Norman"
+        ]
+    },
+    "Modeling Sociality In The Bdi Framework":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_1.txt",
+        "title":"Modeling Sociality In The Bdi Framework",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Timothy J. Norman"
+        ]
+    },
+    "Goal Creation in Motivated Agents":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_2.txt",
+        "title":"Goal Creation in Motivated Agents",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Timothy J. Norman"
+        ]
+    },
+    "Decomposition in data mining: An industrial case study":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_3.txt",
+        "title":"Decomposition in data mining: An industrial case study",
+        "cite":1,
+        "citation":[
+            831
+        ],
+        "author":[
+            "Andrew Kusiak"
+        ]
+    },
+    "Rough Set Theory: A Data Mining Tool for Semiconductor Manufacturing":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_4.txt",
+        "title":"Rough Set Theory: A Data Mining Tool for Semiconductor Manufacturing",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Andrew Kusiak"
+        ]
+    },
+    "Exploration versus Exploitation in Topic Driven Crawlers":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_5.txt",
+        "title":"Exploration versus Exploitation in Topic Driven Crawlers",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Padmini Srinivasan"
+        ]
+    },
+    "Web Crawling Agents for Retrieving Biomedical Information":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_6.txt",
+        "title":"Web Crawling Agents for Retrieving Biomedical Information",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Padmini Srinivasan"
+        ]
+    },
+    "Target Seeking Crawlers and their Topical Performance":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_7.txt",
+        "title":"Target Seeking Crawlers and their Topical Performance",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Padmini Srinivasan"
+        ]
+    },
+    "Topic-Driven Crawlers: Machine Learning Issues":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_8.txt",
+        "title":"Topic-Driven Crawlers: Machine Learning Issues",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Padmini Srinivasan"
+        ]
+    },
+    "Software Engineering and Middleware: A Roadmap":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_9.txt",
+        "title":"Software Engineering and Middleware: A Roadmap",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Wolfgang Emmerich"
+        ]
+    },
+    "Incremental Code Mobility with XML":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_10.txt",
+        "title":"Incremental Code Mobility with XML",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Wolfgang Emmerich"
+        ]
+    },
+    "Implementing incremental code migration with XML":{
+        "path":"LLMGraph/tasks/cora/data/article/paper_cora_11.txt",
+        "title":"Implementing incremental code migration with XML",
+        "cite":0,
+        "citation":[],
+        "author":[
+            "Wolfgang Emmerich"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+choose_example_1: &choose_example_1 |-
+  Step 1: choose community
+  Thought:I need to carefully consider which community will be the best fit for my family. Community 1 seems to have good sports facilities and a large green area, but it lacks important amenities like a subway, shopping mall, and hospital. Community 2 has a good amount of green space and is surrounded by useful amenities, but it doesn't have a hospital. Community 3 seems to have all the necessary amenities, including a hospital, but the rent is the highest. I need to weigh the importance of amenities versus the cost.
+  Output:My choice is community_2.
+
+  Step 2: choose type of house:
+  Thought:The small houses seem like a good option with their affordable rent and decent square footage. However, with only 6 available, I'm not sure if I'll be able to secure one of them.
+  Output:My choice is small_house. 
+
+  Step 3: choose house
+  Thought:I want to find a house that is in a friendhood with good schools and playgrounds and also fits within my budget. I also want a house that has a balcony and good natural lighting.
+  Output:My choice is house_14.

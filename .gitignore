@@ -1,0 +1,16 @@
+log
+apis.txt
+*.pyc
+**/__pycache__
+__pycache__/
+revision.md
+.vscode
+LLMGraph/optimizer/logs
+LLMGraph/optimizer/logs_fairness
+docs
+test/generate_data
+social_net_log
+media
+data
+LLMGraph/llms/api.json
+test

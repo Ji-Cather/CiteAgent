@@ -1,0 +1,51 @@
+environment:
+  
+  env_type: article
+  rule:
+    describer:
+      type: base
+    order:
+      type: base
+    updater:
+      type: article
+    visibility:
+      type: base
+
+  max_turns: 5
+
+  article_write_configs:
+    min_citations: 5
+    paper_num_per_round: 1
+    author_num: 3
+    paper_num: 2
+    communication_num: 1
+
+  managers:
+  
+    article:
+      article_meta_path: data/article_meta_info.json
+      author_path: data/author.json
+      article_dir: data/article
+      generated_article_dir: data/generated_article
+
+  agent:
+    type: article_agent
+    llm:
+      llm_type: gpt-3.5-turbo-16k-0613
+      max_tokens: 300
+      temperature: 0.8
+    
+    social_memory:
+      type: social_memory
+      dialogue_threshold: 30
+      llm:
+        llm_type: gpt-3.5-turbo-16k-0613
+        max_tokens: 300
+        temperature: 0.8
+      memory_type: action_history
+      reflection: true
+      summary_threshold: 10
+
+    write_memory:
+      type: base
+
