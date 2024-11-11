@@ -1,0 +1,39 @@
+{
+    "Citeseer":{
+        "austria":0.9473684210526315,
+        "israel":0.7,
+        "united states":0.6735112936344969,
+        "japan":0.5714285714285714,
+        "netherlands":0.3235294117647059,
+        "germany":0.3114754098360656,
+        "canada":0.25,
+        "united kingdom":0.19047619047619047,
+        "china":0.1891891891891892,
+        "switzerland":0.18181818181818182,
+        "australia":0.10526315789473684,
+        "india":0.05555555555555555,
+        "france":0.0,
+        "singapore":0.0,
+        "hong kong":0.0,
+        "south korea":0.0,
+        "spain":0.0
+    },
+    "Cora":{
+        "united states":0.7570332480818415,
+        "brazil":0.6666666666666666,
+        "saudi arabia":0.5,
+        "canada":0.46153846153846156,
+        "israel":0.391304347826087,
+        "australia":0.35,
+        "france":0.3333333333333333,
+        "germany":0.25,
+        "netherlands":0.2222222222222222,
+        "india":0.18604651162790697,
+        "united kingdom":0.17391304347826086,
+        "austria":0.0,
+        "china":0.0,
+        "south korea":0.0,
+        "japan":0.0,
+        "singapore":0.0
+    }
+}

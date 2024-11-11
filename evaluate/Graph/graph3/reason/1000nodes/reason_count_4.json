@@ -1,0 +1,80 @@
+{
+    "gpt3.5":{
+        "core":{
+            "Paper Citation":0.3443526170798898,
+            "Author Name":0.5482093663911846,
+            "Author Country":0.03856749311294766,
+            "Author Citation":0.024793388429752067,
+            "Paper Timeliness":0.026170798898071626,
+            "Paper Topic":0.01790633608815427
+        },
+        "non_core":{
+            "Paper Citation":0.36325203252032523,
+            "Author Name":0.48878048780487804,
+            "Paper Timeliness":0.04455284552845529,
+            "Author Citation":0.016585365853658537,
+            "Author Country":0.06016260162601626,
+            "Paper Topic":0.02666666666666667
+        },
+        "all":{
+            "Paper Citation":0.3443786135247873,
+            "Author Name":0.5481276210286176,
+            "Author Country":0.03859719752630814,
+            "Author Citation":0.024782098164860607,
+            "Paper Timeliness":0.026196083693986873,
+            "Paper Topic":0.01791838606143971
+        }
+    },
+    "gpt4-mini":{
+        "core":{
+            "Paper Citation":0.32554847841472045,
+            "Author Name":0.2597310686482661,
+            "Author Citation":0.21019108280254778,
+            "Author Country":0.11040339702760085,
+            "Paper Topic":0.027600849256900213,
+            "Paper Timeliness":0.06652512384996462
+        },
+        "non_core":{
+            "Paper Citation":0.3176043557168784,
+            "Author Citation":0.19560395240976003,
+            "Author Name":0.25005041338979633,
+            "Author Country":0.13228473482556968,
+            "Paper Timeliness":0.06815890300463803,
+            "Paper Topic":0.036297640653357534
+        },
+        "all":{
+            "Paper Citation":0.3255428602232793,
+            "Author Name":0.2597242223574185,
+            "Author Citation":0.21018076658586266,
+            "Author Country":0.11041887180680733,
+            "Paper Topic":0.027606999745865175,
+            "Paper Timeliness":0.06652627928076707
+        }
+    },
+    "vllm":{
+        "core":{
+            "Author Name":0.3988050784167289,
+            "Paper Citation":0.29424943988050783,
+            "Paper Timeliness":0.06870799103808813,
+            "Author Citation":0.11053024645257654,
+            "Author Country":0.1239731142643764,
+            "Paper Topic":0.0037341299477221808
+        },
+        "non_core":{
+            "Author Name":0.39413875598086123,
+            "Paper Citation":0.28648325358851673,
+            "Paper Timeliness":0.07715311004784689,
+            "Author Country":0.14074960127591707,
+            "Author Citation":0.09708931419457735,
+            "Paper Topic":0.0043859649122807015
+        },
+        "all":{
+            "Author Name":0.39880159608655286,
+            "Paper Citation":0.29424364421909593,
+            "Paper Timeliness":0.06871429336570735,
+            "Author Citation":0.11052021590611537,
+            "Author Country":0.12398563403080293,
+            "Paper Topic":0.0037346163917255826
+        }
+    }
+}

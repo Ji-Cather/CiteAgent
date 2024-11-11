@@ -1,0 +1,30 @@
+log
+apis.txt
+*.pyc
+**/__pycache__
+# **/data/generated_article
+**/data/model
+
+LLMGraph/utils/model
+__pycache__/
+revision.md
+LLMGraph/optimizer/logs
+LLMGraph/optimizer/logs_fairness
+docs
+test/generate_data
+social_net_log
+media
+data
+lib
+tasks.zip
+tasks
+LLMGraph/llms/api.json
+test
+chromedriver
+logs
+# evaluate/experiment
+
+# LLMGraph/tasks/cora/configs/test_config/data/generated_article
+
+
+runs
