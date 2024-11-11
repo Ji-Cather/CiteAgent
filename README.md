@@ -3,9 +3,9 @@
 Traditional social science research (SSR) faces several limitations, including restricted experimentation and limited applicability across diverse contexts. Experiments are often confined to tightly controlled lab environments or lack comprehensive environmental control in real-world settings, restricting the ability to gain nuanced insights into the causal mechanisms underlying human behaviors.
 
 To address these challenges, we introduce a novel LLM-agent-based simulation platform, the CiteAgent framework, designed to simulate academic behavior with a focus on modeling the formation and evolution of citation networks. CiteAgent offers the following advantages:
-(1) Realistic Citation Network Modeling: Captures real-world phenomena in citation dynamics, such as power-law distribution and citation patterns, providing insights into complex academic interactions.
-(2) Controlled Experimental Environment: Allows researchers to systematically adjust academic environments, enabling detailed investigation of factors influencing academic and social behaviors.
-(3) Scalable Simulations for Social Science Research: Supports extensive and reproducible simulations that facilitate hypothesis testing and validation, expanding the methodological toolkit for SSR beyond traditional approaches. 
+(1) Realistic Citation Network Modeling: Captures real-world phenomena in citation dynamics.
+(2) Controlled Experimental Environment: Allows researchers to systematically adjust academic environments.
+(3) Scalable Simulations for Social Science Research: Supports extensive and reproducible simulations that facilitate hypothesis testing and validation. 
 
 
 
