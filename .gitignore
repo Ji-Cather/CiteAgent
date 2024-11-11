@@ -1,0 +1,33 @@
+log
+apis.txt
+*.pyc
+**/__pycache__
+# **/data/generated_article
+**/data/model
+LLMGraph/tasks/cora/test_data
+LLMGraph/utils/model
+__pycache__/
+revision.md
+LLMGraph/optimizer/logs
+LLMGraph/optimizer/logs_fairness
+docs
+test/generate_data
+social_net_log
+media
+data
+lib
+tasks.zip
+LLMGraph/llms/api.json
+test
+chromedriver
+logs
+# evaluate/experiment
+LLMGraph/tasks
+LLMGraph/tasks/cora/model
+LLMGraph/tasks/cora/origin_data
+# LLMGraph/tasks/cora/configs/test_config/data/generated_article
+LLMGraph/llms/launcher_*
+LLMGraph/tasks/movielens/data
+LLMGraph/tasks/movielens/configs/test_movie_up/data
+LLMGraph/tasks/movielens/configs/test_config/data
+runs

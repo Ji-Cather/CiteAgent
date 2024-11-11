@@ -1,0 +1,120 @@
+[
+    
+    {
+        "model_type": "openai_chat",
+        "config_name": "gpt-3.5-turbo-0125",
+        "model_name": "gpt-3.5-turbo-0125",
+        "api_key": ".*",
+        "generate_args": {
+            "max_tokens": 2000,
+            "temperature": 0.8
+        },
+        "client_args":{
+            "base_url":""
+        }
+    },
+    {
+        "model_type": "openai_chat",
+        "config_name": "gpt-4-turbo-preview",
+        "model_name": "gpt-4-turbo-preview",
+        "api_key": ".*",
+        "generate_args": {
+            "max_tokens": 2000,
+            "temperature": 0.8
+        },
+        "client_args":{
+            "base_url":""
+        }
+    },
+    {
+        "model_type": "openai_chat",
+        "config_name": "gpt-4o-mini",
+        "model_name": "gpt-4o-mini",
+        "api_key": ".*",
+        "generate_args": {
+            "max_tokens": 2000,
+            "temperature": 0.8
+        },
+        "client_args":{
+            "base_url":""
+        }
+    },
+    {
+        "config_name": "qwen2",
+        "model_type": "openai_chat",
+        "model_name": "qwen/Qwen2-72B",
+        "api_key": ".*",
+        "client_args": {
+            "base_url":""
+        },
+        "generate_args": {
+            "temperature": 0.8,
+            "max_tokens": 500
+        }
+    },
+    {
+        "model_type": "openai_chat",
+        "config_name": "gemini-1.5-flash",
+        "model_name": "gemini-1.5-flash-preview-0514",
+        "api_key": ".*",
+        "generate_args": {
+            "max_tokens": 2000,
+            "temperature": 0.8
+        },
+        "client_args":{
+            "base_url":""
+        }
+    },
+    {
+        "config_name": "vllm",
+        "model_type": "openai_chat",
+        "model_name": "llama3-70B",
+        "api_key": ".*",
+        "client_args": {
+            "base_url":""
+        },
+        "generate_args": {
+            "temperature": 0.8,
+            "max_tokens": 2000
+        }
+    },
+    {
+        "config_name": "llama8b",
+        "model_type": "openai_chat",
+        "model_name": "llama3-8B",
+        "api_key": ".*",
+        "client_args": {
+            "base_url":""
+        },
+        "generate_args": {
+            "temperature": 0.8,
+            "max_tokens": 2000
+        }
+    },
+    {
+        "config_name": "vllm_8",
+        "model_type": "openai_chat",
+        "model_name": "/mnt/jiakai/Download/Meta-Llama-3-8B-Instruct",
+        "api_key": ".*",
+        "client_args": {
+            "base_url":""
+        },
+        "generate_args": {
+            "temperature": 0.8,
+            "max_tokens": 2000
+        }
+    },
+    {
+        "config_name": "mixtral",
+        "model_type": "openai_chat",
+        "model_name": "mistralai/Mixtral-8x7B-v0.1",
+        "api_key": ".*",
+        "client_args": {
+            "base_url":""
+        },
+        "generate_args": {
+            "temperature": 0.8,
+            "max_tokens": 500
+        }
+    }
+]
