@@ -76,17 +76,19 @@ For the experiments outlined in the paper, we provide a script for execution.
     ```
     tasks/
     ├── citeseer/
+        ├── data/
+    │   ├── configs/
     ├── citeseer_1/
     ├── cora/
     ├── cora_1/
     ├── llm_agent/
-    │   ├── llm_agent_1/
-    │   ├── llm_agent_2/
-    │   ├── llm_agent_3/
-    │   ├── llm_agent_4/
-    │   ├── llm_agent_5/
-    │   ├── llm_agent_6/
-    │   └── llm_agent_ablation/
+│   ├── llm_agent_1/
+│   ├── llm_agent_2/
+│   ├── llm_agent_3/
+│   ├── llm_agent_4/
+│   ├── llm_agent_5/
+│   ├── llm_agent_6/
+│   └── llm_agent_ablation/
     ```
 - **Run Simulation Experiments**:
 
