@@ -1,2 +1,3 @@
-from . import chat_prompt
-from . import prompt
+MODEL = 'llama' # 设置prompt版本
+
+from . import article

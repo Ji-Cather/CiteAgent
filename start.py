@@ -3,405 +3,232 @@ import shutil
 import json
 import yaml
 import time
-import openai
-def readinfo(data_dir):
-    assert os.path.exists(data_dir),"no such file path: {}".format(data_dir)
-    with open(data_dir,'r',encoding = 'utf-8') as f:
-        data_list = json.load(f)
-    return data_list
+import multiprocessing
+from LLMGraph.utils.io import readinfo,writeinfo
+
+import argparse
+parser = argparse.ArgumentParser(description='experiment_runner')  # 创建解析器
+parser.add_argument('--start_server', 
+                    action='store_true',
+                    default=False,
+                    help="start server")
+
+args = parser.parse_args()  # 解析参数
 
 
+def start_launchers(launcher_num:int =8,
+                    launcher_save_paths = [
+                  "LLMGraph/llms/launcher_info.json"
+              ]):
+    command_template = "python start_launchers.py --launcher_num {launcher_num} --launcher_save_path {launcher_save_path}"
+    
+    # 创建多个进程，每个进程执行函数一次，并传入不同的参数
+    processes = []
+    for launcher_save_path in launcher_save_paths:
+        command = command_template.format(launcher_num = launcher_num,
+                                            launcher_save_path = launcher_save_path)
 
-def run_tasks(tasks,
-              data,
+        p = multiprocessing.Process(target=os.system, 
+                                    args=(command,))
+        processes.append(p)
+        p.start()
+    
+    # 等待所有进程执行结束
+    for p in processes:
+        p.join()
+
+def run_tasks(configs,
+              task_name,
               log_dir,
-              run_ex_times = 1):
+              launcher_save_paths = [
+                  "LLMGraph/llms/launcher_info.json"
+              ]):
 
+    assert len(configs)==len(launcher_save_paths), "len not equal for launcher_save_paths"
     
-    
-    success_tasks = []
-    
-    failed_tasks = []
-    
-    command_template = "python main.py --task {data} --config {task} --simulate"
+    command_template = "python main.py --task {task} --config {config} --build --launcher_save_path {launcher_save_path}"
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
-    log_tasks_dir = os.path.join(log_dir,"log")
-    if not os.path.exists(log_tasks_dir):
-        os.makedirs(log_tasks_dir)
+    log_task_dir = os.path.join(log_dir,"log")
+    if not os.path.exists(log_task_dir):
+        os.makedirs(log_task_dir)
 
     complete_path = os.path.join(log_dir,"complete.json")            
     
-    
-    for idx,task in enumerate(tasks):
-        
-        task_root_path = os.path.join("LLMGraph/tasks",data,"configs",task,"result")
+    # 创建多个进程，每个进程执行函数一次，并传入不同的参数
+    processes = []
+    for idx, command_info in enumerate(zip(configs,launcher_save_paths)):
+        config,launcher_save_path = command_info
+        # launcher_save_path = "LLMGraph/llms/launcher_info_none.json"
 
-        done_times = 0
-        if os.path.exists(task_root_path):
-            results = os.listdir(task_root_path)
+        #test_article_num >= 1000
+        path = f"LLMGraph/tasks/{task_name}/configs/{config}/data/log_info.json"
+        if os.path.exists(path):
+            log_info = readinfo(path)
+            if log_info["generated_articles"] >= 1000-89:
+                print("finished",config)
+                continue
 
-            for result in results:
-                result_path = os.path.join(task_root_path,result)
-                if os.path.exists(os.path.join(result_path,"all")):
-                    done_times +=1
-            
-        iter_p = 0
-        max_iter = run_ex_times
-            
-        while(done_times<run_ex_times and iter_p<max_iter):
-            task = task.replace("(","\(").replace(")","\)")
-            log_task_path = os.path.join(log_tasks_dir,f"{task}.log")
-            command = command_template.format(task = task,
-                                            data = data,
-                                            log_path = log_task_path)
-            
-            try:
-                return_val = os.system(command)
-                if return_val ==0:
-                    done_times+=1
-            except Exception as e:
-                print(e)
-                
-            iter_p+=1
-            
-        if (done_times == run_ex_times):
-            success_tasks.append(task.replace("\(","(").replace("\)",")"))
+        command = command_template.format(config = config,
+                                        task = task_name,
+                                        launcher_save_path = launcher_save_path
+                                        )
+        p = multiprocessing.Process(target=os.system, 
+                                    args=(command,))
+        processes.append(p)
+        p.start()
+
+    # 等待所有进程执行结束
+    success_configs = []
+    failed_configs = []
+    for config,p in zip(configs,processes):
+        p.join()
+        if p.exitcode == 0:
+            success_configs.append(config)
         else:
-            failed_tasks.append(task.replace("\(","(").replace("\)",")"))
+            failed_configs.append(config)
+    with open(complete_path,'w',encoding = 'utf-8') as f:
+        json.dump({"success":success_configs,
+                "failed":failed_configs}, 
+                f,
+                indent=4,
+                separators=(',', ':'),ensure_ascii=False)
+    
+
    
-        with open(complete_path,'w',encoding = 'utf-8') as f:
-            uncomplete_tasks =tasks[idx+1:] if (idx+1)< len(tasks) else []
-            json.dump({"success":success_tasks,
-                    "failed":failed_tasks,
-                    "uncomplete":uncomplete_tasks}, 
-                    f,
-                    indent=4,
-                    separators=(',', ':'),ensure_ascii=False)
-        
-def run_tasks_logs(data = "PHA_51tenant_5community_28house",
-                   configs:list = None
-                   ):
-    config_root = f"LLMGraph/tasks/{data}/configs"
-    
-    configs = os.listdir(config_root) if configs is None else configs
-    
-    
-    command_template = "python main.py --task {task} --data {data} --log {log}"
-    
-    count = {}
-    for config in configs:
-        
-        
-        result_path = os.path.join(config_root,config,"result")
-        config = config.replace("(","\(").replace(")","\)")
-        
-        if os.path.exists(result_path):
-            # paths.append(os.path.join(result_path,os.listdir(result_path)[-1]))
-            result_files = os.listdir(result_path)
-            paths = []
-            for result_file in result_files:
-                # if os.path.exists(os.path.join(result_path,result_file,"tenental_system.json")) \ 
-                # and os.path.exists(os.path.join(result_path,result_file,"all")):
-                if os.path.exists(os.path.join(result_path,result_file,"tenental_system.json")):
-                # result_file_path = os.path.join(result_path,result_file,"all")
-                # if os.path.exists(result_file_path):
-                    paths.append(os.path.join(result_path,result_file))
-            for path in paths:
-                path = path.replace("(","\(").replace(")","\)")
-                command = command_template.format(task = config,
-                                                  data = data,
-                                                  log = path)
-                try:
-                    return_val = os.system(command)
-                except Exception as e:
-                    print(e)
-        count[config]=paths
-                
-                
-    # print(count)
-    
-    # print(len(count))
-                    
-            
-def test_task_logs(data ="PHA_51tenant_5community_28house",
-                   ):
-    
-    config_root = f"LLMGraph/tasks/{data}/configs"
-    
-    configs = os.listdir(config_root)
-  
-    not_available_results =[]
-    
-    for config in configs:
-        
-        result_path = os.path.join(config_root,config,"result")
-        
-        if os.path.exists(result_path):
-            # paths.append(os.path.join(result_path,os.listdir(result_path)[-1]))
-            result_files = os.listdir(result_path)
-            paths = []
-            ok = False
-            for result_file in result_files:
-                if os.path.exists(os.path.join(result_path,result_file,"tenental_system.json")):
-                    tenental_info = readinfo(os.path.join(result_path,result_file,"tenental_system.json"))
-                    last_round = list(tenental_info.keys())[-1]
-                    try:
-                        if (int(last_round)>=9):
-                            ok = True
-                    except:
-                        pass
-            if (not ok):not_available_results.append([config,list(tenental_info.keys())[-1]])
-                        
-    with open("LLMGraph/tasks/PHA_51tenant_5community_28house/cache/not_available_tasks.json",
-              'w',encoding = 'utf-8') as f:
-        json.dump(not_available_results, f, indent=4,separators=(',', ':'),ensure_ascii=False)
-    
-    
-def clear_all_cache_ex_data(data):
-    task_root_dir = os.path.join("LLMGraph/tasks",data)
-    configs = os.listdir(os.path.join(task_root_dir,"configs"))
-    for config in configs:
-        config_path = os.path.join(task_root_dir,"configs",config)
-        result_path = os.path.join(config_path,"result")
-        if os.path.exists(result_path):
-            shutil.rmtree(result_path)
-            
-def clear_unfinished_ex_data(data):
-    task_root_dir = os.path.join("LLMGraph/tasks",data)
-    configs = os.listdir(os.path.join(task_root_dir,"configs"))
-    for config in configs:
-        config_path = os.path.join(task_root_dir,"configs",config)
-        result_path = os.path.join(config_path,"result")
-        if os.path.exists(result_path):
-            results = os.listdir(result_path)
-            for result_one in results:
-                result_one_path = os.path.join(result_path,result_one)
-                if not os.path.exists(os.path.join(result_one_path,"all")):
-                    shutil.rmtree(result_one_path)
-            results = os.listdir(result_path)
-            if len(results) ==0:
-                shutil.rmtree(result_path)
-            
-            
-            
-def set_data_configs(data):
-    task_dir ="LLMGraph/tasks"
-    
-    config_root = os.path.join(task_dir,data,"configs")
-    task_names = os.listdir(config_root)
 
 
-    # task_names = list(filter(lambda x: 
-    #     not os.path.exists(os.path.join(config_root,x,"result")),
-    #                          task_names))
-    
-    dirs = {
-        "house":"",
-        "tenant":"",
-        "forum":"",
-        "community":""
-    }
-    
-    distribution_batch_dir={
-        "tenant":"",
-        "community":""
-    }
-    
-    data_files = os.listdir(os.path.join(task_dir,data,"data"))
-    
-    data_files = list(filter(lambda x:x!="visualize",data_files))
-    
-    for data_type  in dirs.keys():
-        for data_file in data_files:
-            if (data_type in data_file):
-                dirs[data_type] = os.path.join("data",data_file)
-                break
-            
-    
-    
-    for task_name in task_names:
-        config_path = os.path.join(config_root,task_name,"config.yaml")
-        task_config = yaml.safe_load(open(config_path))
-        
-        """default k"""
-        if task_config["environment"]["rule"]["order"]["type"] == "kwaitlist":
-            if "k" not in task_config["environment"]["rule"]["order"].keys():
-                task_config["environment"]["rule"]["order"]["k"] = 2
-            if "waitlist_ratio" not in task_config["environment"]["rule"]["order"].keys():
-                task_config["environment"]["rule"]["order"]["waitlist_ratio"] = 1.2
-                
-        """communication_num"""
-        task_config["environment"]["communication_num"] = 10
-        
+def run_experiments():
+   
+    llms = ["gpt3.5","gpt4-mini","vllm"]
+
+    llm_agent_config_templates = [
        
-        
-        distribution_data_paths = os.listdir(os.path.join(config_root,task_name,"data"))
-        for data_path in distribution_data_paths:
-            if "tenant" in data_path:
-                distribution_batch_dir["tenant"] =  os.path.join("data",data_path)
-            else: distribution_batch_dir["community"] = os.path.join("data",data_path)
-        
-        for data_type,data_dir in dirs.items():
-            task_config["managers"][data_type]["data_dir"] = data_dir
-        
-        for distribution_key,distribution_path in distribution_batch_dir.items():
-            task_config["managers"][distribution_key]["distribution_batch_dir"] = distribution_path
+        "template_search_shuffle_base_{llm}_powerlaw_base",
+        "template_search_shuffle_base_{llm}_recall100f",
+        "template_search_shuffle_base_{llm}_nocitetime",
 
+        "template_search_shuffle_anonymous_{llm}",
+        "template_search_shuffle_base_{llm}",
+        "template_search_shuffle_base_nosocial_{llm}",
+        "template_search_shuffle_equal_country_{llm}"
+        ]
+    
+    task_name_map = {}
+    task_name_map["llm_agent"] = []
+    for llm in llms:
+        task_name_map["llm_agent"].extend([config_template.format(llm = llm) 
+                    for config_template in llm_agent_config_templates])
+    task_name_map["llm_agent"].extend(["template_2engine"])
+
+    task_name_map.update({
+        "citeseer":["template_fast_{llm}".format(llm = llm) 
+                        for llm in llms],
+        "cora":["template_fast_{llm}".format(llm = llm) 
+                        for llm in llms],
+    })
+    
             
-        task_config["name"] = task_name
-        with open(config_path, 'w') as outfile:
-            yaml.dump(task_config, outfile, default_flow_style=False)
+    run_simulation(task_name_map)
+   
+
+
+def run_simulation(
+        task_name_map:dict # {task_name: List[config_name]}
+        ):
+    """ run experiments 
+    Args:
+        task_names (list): 
+        configs (list): _description_
+    """
+
+    """
+        We have also tested CiteAgent with "llama8b" "qwen2" "gemini-1.5-flash" and "mixtral". However, the human role-play capabilities of these LLMs fall short for simulating academic activities. We're planning to create a benchmark to evaluate the performance of these LLMs in human role-play scenarios, specifically from a social science perspective.
+    """
     
     
-def replace_distribution_batch(data):
-    task_dir ="LLMGraph/tasks"
-    
-    config_root = os.path.join(task_dir,data,"configs")
-    task_names = os.listdir(config_root)
-    
-    origin_name = "distribution_batch_28_3.json"
-    
-    new_name = "distribution_batch_39_3_1.json"
-    
-    new_json_path = "test/generate_data/distribution_batch_39_3_1.json"
-    
-    for task_name in task_names:
-        if os.path.exists(os.path.join(config_root,task_name,"data",origin_name)):
-            origin_file = readinfo(os.path.join(config_root,task_name,"data",origin_name))
-            assert len(origin_file)==3
-            assert list(origin_file.keys())[1]=="1"
-            os.remove(os.path.join(config_root,task_name,"data",origin_name))
-            shutil.copyfile(new_json_path,
-                            os.path.join(config_root,task_name,"data",new_name))
+    prefix = 0
+    launcher_save_paths = []
+    for task_name in task_name_map.keys():
+        
+        server_num = len(task_name_map[task_name])
+        launcher_save_paths.extend([f"LLMGraph/llms/launcher_filter_{i}.json" for i in range(prefix+1,prefix+server_num+1)])
+        prefix += server_num
+
+    if args.start_server:    
+        start_launchers(10,launcher_save_paths)
+    else:
+        for idx, task_name in enumerate(task_name_map.keys()):        
+            server_num = len(task_name_map[task_name])
+            launcher_save_paths_group = launcher_save_paths[idx*server_num:(idx+1)*server_num]
+            log_dir = f"LLMGraph/tasks/{task_name}/cache"
+            configs = task_name_map[task_name]
+            run_tasks(configs,
+                    task_name,
+                    log_dir,
+                    launcher_save_paths=launcher_save_paths_group)
             
-def run_optimizer(optimize_times = 20):
-    command_args = [
-                "--data","public_housing_optimizer",
-                "--optimize",
-                "--optimize_regressor_max_samples","60",
-                "--optimize_regressor_threshold","0.3",
-                "--optimize_refine_first"
-            ]   
     
-    command_template = "python main.py "
+
+
+def clear_experiment_cache(
+                    configs,
+                    task_name,):
+    task_root = "LLMGraph/tasks"
+    task_root = os.path.join(task_root,task_name)
+    file_names =[
+        "article_meta_info.pt",
+        "author.pt"
+    ]
+  
+
+    for config in configs:
+        config_path = os.path.join(task_root,"configs",config)
+        if not os.path.exists(config_path):
+            print(config_path)
+            continue
+        data_dst = os.path.join(config_path,"data")
+        data_src = os.path.join(task_root,"data")
+        config_file = yaml.safe_load(open(os.path.join(config_path,"config.yaml")))
+        # config_file["environment"]["article_write_configs"]["use_graph_deg"] = True
+        with open(os.path.join(config_path,"config.yaml"), 'w') as outfile:
+            yaml.dump(config_file, outfile, default_flow_style=False)
+
+        if os.path.exists(data_dst):
+            shutil.rmtree(data_dst)
+        if os.path.exists(os.path.join(config_path,"evaluate")):
+            shutil.rmtree(os.path.join(config_path,"evaluate"))
+        os.makedirs(data_dst)
+        for file_name in file_names:
+            shutil.copyfile(os.path.join(data_src,file_name),
+                            os.path.join(data_dst,file_name))
     
-    command = command_template + " ".join(command_args) 
-    
-    for _ in range(optimize_times):
-        try:
-            return_val = os.system(command)
-        except Exception as e:
-            print(e)
+def modify_config_name_info(task_name,
+                            configs):
+    import re
+    task_root = "LLMGraph/tasks"
+    task_root = os.path.join(task_root,task_name)
+    for config in configs:
+        config_path = os.path.join(task_root,"configs",config)
+        if not os.path.exists(config_path):
+            print(config_path)
+            continue
+        data_dst = os.path.join(config_path,"data")
+        article_meta_info = readinfo(os.path.join(data_dst,"article_meta_info.pt"))
+        regex = r'LLMGraph/tasks/(.*)/data/'
+        regex_generated = f'LLMGraph/tasks/{task_name}/configs/{config}/data/generated_article/'
+        for article in article_meta_info.values():
+            if "generated_article" in article["path"]:
+                article["path"] = regex_generated+article["path"].split("/")[-1]
+            else:
+                task_ori = re.search(regex, article["path"]).group(1)
+                article["path"] = article["path"].replace(f"/{task_ori}/",f"/{task_name}/")
+            assert os.path.exists(article["path"])
+        writeinfo(os.path.join(data_dst,"article_meta_info.pt"),article_meta_info)
+
+
     
 if __name__ == "__main__":
     
-    task_dir ="LLMGraph/tasks"
-
-    """multi_list experiment"""
-    
-    task_names = [
-        "ver2_nofilter_multilist(1.2_k1)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.5_k1)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.8_k1)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.5_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.8_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.2_k3)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.5_k3)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3",
-        "ver2_nofilter_multilist(1.8_k3)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose3"
-    ]
-    data = "public_housing"
-    
-    """entrance policy for house"""
-    
-    task_names = [
-        "ver1_nofilter_singlelist_5t_1h_p#singlelist",
-        "ver1_nofilter_singlelist_5t_3h(step_num(t1_h2))_p#singlelist",
-        "ver1_nofilter_singlelist_5t_3h(step_num(t1_h2))_p#singlelist",
-        "ver1_nofilter_singlelist_5t_3h(step_num(t1_h3))_p#singlelist",
-        "ver1_nofilter_singlelist_5t_6h_p#singlelist"
-    ]
-    data = "public_housing"
-   
-    """entrance policy for tenant"""
-    
-    task_names = [
-        "ver1_nofilter_singlelist_1t_6h(step_num(t1_h1)_p#singlelist",
-        "ver1_nofilter_singlelist_2t_6h(step_num(t1_h1))_p#singlelist",
-        "ver1_nofilter_singlelist_2t_6h(step_num(t3_h1))_p#singlelist",
-        "ver1_nofilter_singlelist_2t_6h(step_num(t5_h1))_p#singlelist",
-        "ver1_nofilter_singlelist_4t_6h(step_num(t1_h1))_p#singlelist",
-        "ver1_nofilter_singlelist_4t_6h(step_num(t2_h1))_p#singlelist",
-        "ver1_nofilter_singlelist_5t_6h_p#singlelist",
-        "ver1_nofilter_singlelist_8t_6h_p#singlelist"
-    ]
-    data = "public_housing"
-    
-    """allocation experiments"""
-     
-    task_names =[
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#random_avg",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose2",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#portion_rentmoney",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#random_avg",
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#housetype",
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#portion_rentmoney",
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_portion3(f_member_num)_priority_8t_6h_p#random_avg",
-        "ver1_nofilter_multilist(1.2)_portion3(f_member_num)_priority_8t_6h_p#portion_rent_money",
-        "ver1_nofilter_multilist(1.2)_portion3(f_member_num)_priority_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_portion3(f_rent_money_budget)_priority_8t_6h_p#random_avg",
-        "ver1_nofilter_multilist(1.2)_portion3(f_rent_money_budget)_priority_8t_6h_p#portion_rent_money",
-        "ver1_nofilter_multilist(1.2)_portion3(f_rent_money_budget)_priority_8t_6h_p#portion_housesize"
-    ]
-    data = "public_housing"
-    
-    """sorting policy"""
-    data = "public_housing_sorting_policy"
-    task_names =[
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#housetype",
-        "ver1_nofilter_multilist(1.2)_multilist_housing_points_8t_6h_p#housetype",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_priority_8t_6h(step_num(t1_h1))_p#housetype_choose2",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_housing_points_8t_6h(step_num(t1_h1))_p#housetype_choose2",
-        "ver1_nofilter_multilist(1.2)_portion3(f_earn_money)_priority_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_portion3(f_earn_money)_housing_points_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_multilist_priority_8t_6h_p#portion_rentmoney",
-        "ver1_nofilter_multilist(1.2)_multilist_housing_points_8t_6h_p#portion_rentmoney",
-        "ver1_nofilter_multilist(1.2)_multilist_nopriority_8t_6h_p#housetype",
-        "ver1_nofilter_multilist(1.2)_multilist_nopriority_8t_6h_p#housetype",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_nopriority_8t_6h(step_num(t1_h1))_p#housetype_choose2",
-        "ver2_nofilter_multilist(1.2_k2)_housetype_nopriority_8t_6h(step_num(t1_h1))_p#housetype_choose2",
-        "ver1_nofilter_multilist(1.2)_portion3(f_earn_money)_nopriority_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_portion3(f_earn_money)_nopriority_8t_6h_p#portion_housesize",
-        "ver1_nofilter_multilist(1.2)_multilist_nopriority_8t_6h_p#portion_rentmoney",
-        "ver1_nofilter_multilist(1.2)_multilist_nopriority_8t_6h_p#portion_rentmoney"
-    ]
-    
-    
-    log_dir = f"LLMGraph/tasks/{data}/cache"
-    
-
-    
-    run_tasks(task_names,
-              data,
-              log_dir,
-              run_ex_times=2)
-    
-    # replace_distribution_batch(data)
-    
-    # set_data_configs(data)
-    
-    """ 谨慎执行，有可能导致未结束的实验 进行matrix计算 """
-    # run_tasks_logs(data,
-    #                configs=task_names)
-    
-    # test_task_logs()
-    
-    
-    """ 请谨慎执行，确保备份 """
-    # clear_all_cache_ex_data(data)
-    
-    # clear_unfinished_ex_data(data)
+    run_experiments()

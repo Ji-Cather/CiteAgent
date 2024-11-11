@@ -23,18 +23,18 @@ def generate_data():
         author_a = article["Authors"]
         for author_name in author_a:
             if author_name in authors.keys():
-                co_workers = authors[author_name]["co_authors"]
+                co_workers = authors[author_name]["co_author_ids"]
                 articles = []
                 research_region = []
             else:
                 co_workers = []
             # for co_a in author_a:
             #     if co_a not
-                authors[author_name]["co_authors"]
+                authors[author_name]["co_author_ids"]
                 
 def generate_articles():
     cora_titles = readinfo("data/cora/titles.json")
-    authors = readinfo("LLMGraph/tasks/cora/data/author.json")
+    authors = readinfo("data/cora/authors.json")
     
     articles = {}
     for author_name, author_info in authors.items():
@@ -47,6 +47,18 @@ def generate_articles():
                         break
                 articles[article_name] = absract
     writeinfo("LLMGraph/tasks/cora/data/article.json",articles)
+    
+def generate_origin_data():
+    cora_titles = readinfo("data/cora/titles.json")
+    crawled_authors = readinfo("LLMGraph/tasks/cora/data/author.json")
+    crawled_article_infos = readinfo("data/cora/results.json")
+    
+    articles = {}
+    for idx, article_one_zip in enumerate(zip(cora_titles,crawled_article_infos)):
+        abstract, article_info = article_one_zip
+        
+        
+    writeinfo("LLMGraph/tasks/cora/origin_data/article.json",articles)
     
 
     

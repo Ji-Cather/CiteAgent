@@ -10,7 +10,7 @@ from . import memory_registry
 @memory_registry.register("base")
 class BaseMemory(BaseModel):
     name :str # 标记是谁的记忆
-
+    id:str= None# 标记是谁的记忆
     def add_message(self, messages: List[Message]) -> None:
         pass
 

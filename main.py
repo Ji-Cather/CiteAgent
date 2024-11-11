@@ -1,11 +1,13 @@
 import argparse
 import os
-os.environ["OPENAI_API_KEY"] = "sk-cIrswbIqa0Josai1263f2aA963A94d7eA224B843BaBb4dE4"
-os.environ["OPENAI_API_BASE"] = "https://api.aigcbest.top/v1"
+# huggingface tokenizers parallelism
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import shutil
 from LLMGraph.executor import Executor
-parser = argparse.ArgumentParser(description='graph_llm_builder')  # 创建解析器
 
+import time
+parser = argparse.ArgumentParser(description='graph_llm_builder')  # 创建解析器
+import agentscope
 
 parser.add_argument('--config', 
                     type=str, 
@@ -27,8 +29,25 @@ parser.add_argument("--build",
                     default=False,
                     help="start the building process")
 
+parser.add_argument("--save",
+                    action='store_true',
+                    default=False,
+                    help="save the networkx graph")
 
+parser.add_argument("--test",
+                    action='store_true',
+                    default=False,
+                    help="test program")
 
+parser.add_argument("--eval",
+                    action='store_true',
+                    default=False,
+                    help="evaluate program")
+
+parser.add_argument('--launcher_save_path', 
+                    type=str, 
+                    default="LLMGraph/llms/launcher_info.json", 
+                    help="The path to save launcher info")
 
 args = parser.parse_args()  # 解析参数
 
@@ -36,11 +55,33 @@ args = parser.parse_args()  # 解析参数
 
 if __name__ == "__main__":
     
-    args = {**vars(args)}
+    args = {**vars(args)}    
+    agentscope.init(
+        project="llmgraph",
+        name="main",
+        model_configs="LLMGraph/llms/default_model_configs.json",
+        use_monitor=False,
+        save_code=False,
+        save_api_invoke=False,
+    )
     
-
+    
+    
     if args["build"]:
-        
         executor = Executor.from_task(args)
         executor.run()
+        
+    if args["save"]:
+        args["launcher_save_path"] = "LLMGraph/llms/launcher_info_none.json"
+        executor = Executor.from_task(args)
+        executor.save()
     
+    if args["test"]:
+        args["launcher_save_path"] = "LLMGraph/llms/launcher_info_none.json"
+        executor = Executor.from_task(args)
+        executor.test()
+
+    if args["eval"]:
+        args["launcher_save_path"] = "LLMGraph/llms/launcher_info_none.json"
+        executor = Executor.from_task(args)
+        executor.eval()

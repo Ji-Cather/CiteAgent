@@ -151,6 +151,12 @@ class LogRound(BaseModel):
         # Calculate Gini coefficient and Lorenz curve coordinates
         gini, x, y = self.calculate_gini(utility_matrix["choose_u"])
         import matplotlib.pyplot as plt
+from matplotlib import font_manager as fm 
+
+
+# 设置全局字体
+plt.rcParams['font.family'] = font_prop.get_name()
+plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
         # Plot the Lorenz curve
         plt.figure(figsize=(6, 6))
         plt.plot(x, y, marker='o', linestyle='-', color='b')
@@ -160,7 +166,7 @@ class LogRound(BaseModel):
         plt.ylabel("Cumulative % of Income/Wealth")
         plt.title(f"Lorenz Curve (Gini Index: {gini:.2f})")
         plt.grid(True)
-        plt.savefig(os.path.join(save_dir,"GINI_index.png"))
+        plt.savefig(os.path.join(save_dir,"GINI_index.pdf"))
         
         utility_eval_matrix.loc["GINI_index","all"] = gini
 
@@ -393,3 +399,4 @@ class LogRound(BaseModel):
         return gini_coefficient, x, y
     
     
+
