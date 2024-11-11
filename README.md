@@ -68,9 +68,6 @@ We offer support for multiple scholarly search engines, including Generated Pape
 ## 🧪 Experiments
 
 For the experiments outlined in the paper, we provide a script for execution.
-
-
-For the experiments outlined in the paper, we provide a script for execution.
 - **Download the Datasets**:
 
     <!-- Download the datasets from `https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2F9MCZC4&version=DRAFT#` -->
