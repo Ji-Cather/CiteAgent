@@ -3,11 +3,11 @@ from __future__ import annotations
 import re
 from typing import Union
 from ..base_parser import AgentOutputParser, find_and_load_json
-from .. import cora_output_parser_registry
+from .. import article_output_parser_registry
 from agentscope.models import ModelResponse
 
 import json
-@cora_output_parser_registry.register("choose_reason")
+@article_output_parser_registry.register("choose_reason")
 class ChooseReasonParser(AgentOutputParser):
     
     def parse(self, llm_output: str):

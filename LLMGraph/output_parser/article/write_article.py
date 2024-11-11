@@ -7,10 +7,10 @@ from agentscope.models import ModelResponse,ModelWrapperBase
 from agentscope.message import Msg,MessageBase
 
 from ..tool_parser import ToolParser, find_and_load_json
-from .. import cora_output_parser_registry
+from .. import article_output_parser_registry
 
 
-@cora_output_parser_registry.register("write_article")
+@article_output_parser_registry.register("write_article")
 class WriteArticleParser(ToolParser):
 
     

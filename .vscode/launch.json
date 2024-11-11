@@ -45,8 +45,8 @@
             // "--config","fast_vllm",
             // "--launcher_save_path","LLMGraph/llms/launcher_info_none.json",
             // "--save"] 
-            "args": ["--task","llm_agent_1",
-            "--config","search_shuffle_equal_country_vllm",
+            "args": ["--task","llm_agent",
+            "--config","template_search_shuffle_base_gpt3.5",
             "--launcher_save_path","LLMGraph/llms/launcher_info_none.json",
             "--build"] 
             // "args": ["--task","citeseer",
@@ -233,8 +233,9 @@
             // "--config","gt"]
             // "args":["--task","citeseer",
             //         "--config","10000_full_vllm"]
-            // "args":["--task","llm_agent_1",
-            // "--config","search_shuffle_equal_country_vllm"]
+            "args":["--task","llm_agent",
+            "--config","template_search_shuffle_base_gpt3.5",
+        "--threshold","80"]
             // "args":["--task","llm_agent_1",
             // "--config","search_shuffle_base_vllm_front_end"],
             // "args":["--task","llm_agent_1",
@@ -262,8 +263,8 @@
             // "--config","search_shuffle_base_vllm"]
             // "args":["--task","llm_agent_6",
             // "--config","search_shuffle_base_gpt4-mini_recall100f"]
-            "args":["--task","citeseer",
-            "--config","fast_gpt3.5"]
+            // "args":["--task","citeseer",
+            // "--config","fast_gpt3.5"]
             // "args":["--task","citeseer",
             // "--config","fast_gpt3.5"]
             // "args": ["--task","llm_agent_1",

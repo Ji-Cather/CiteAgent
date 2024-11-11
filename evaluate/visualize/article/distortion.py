@@ -3,7 +3,7 @@ from matplotlib import font_manager as fm
 
 import os
 from typing import List
-from evaluate.visualize.article import plot_gini
+
 import networkx as nx
 import matplotlib.dates as mdates
 import pandas as pd

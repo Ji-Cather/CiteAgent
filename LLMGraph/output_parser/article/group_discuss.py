@@ -5,11 +5,11 @@ from typing import Union
 
 
 
-from .. import cora_output_parser_registry
+from .. import article_output_parser_registry
 from ..base_parser import AgentOutputParser
 
     
-@cora_output_parser_registry.register("group_discuss")
+@article_output_parser_registry.register("group_discuss")
 class GroupDiscussParser(AgentOutputParser):
     
     def parse(self, llm_output: str):
@@ -26,7 +26,7 @@ class GroupDiscussParser(AgentOutputParser):
     
 
     
-@cora_output_parser_registry.register("choose_researcher")
+@article_output_parser_registry.register("choose_researcher")
 class ChooseResearcherParser(AgentOutputParser):
     
     def parse(self, llm_output: str):
@@ -36,7 +36,7 @@ class ChooseResearcherParser(AgentOutputParser):
         except Exception as e:
             return {"fail":True}
          
-@cora_output_parser_registry.register("get_idea")
+@article_output_parser_registry.register("get_idea")
 class GetIdeaParser(AgentOutputParser):
     
     def parse(self, llm_output: str):

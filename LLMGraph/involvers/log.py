@@ -155,8 +155,7 @@ from matplotlib import font_manager as fm
 
 
 # 设置全局字体
-plt.rcParams['font.family'] = font_prop.get_name()
-plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
+
         # Plot the Lorenz curve
         plt.figure(figsize=(6, 6))
         plt.plot(x, y, marker='o', linestyle='-', color='b')

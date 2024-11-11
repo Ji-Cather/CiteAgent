@@ -11,7 +11,6 @@ def select_to_last_period(s, upper_token = 4e3):
     else:
         # 如果没有找到句号，返回整个字符串
         return s
-summary_prompt_default = yaml.safe_load(open("LLMGraph/memory/summary.yaml"))
 memory_registry = Registry(name="MemoryRegistry")
 
 from .base import BaseMemory

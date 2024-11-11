@@ -928,13 +928,12 @@ def calculate_all_graph_matrix(
                                  "calculate all graph matrix"):
         print("calculating", graph_type)
         if graph_type in graph_types:
-            
-            calculate_diameter_trend(graph,graph_type,save_dir)
+            if graph_type == "article_citation":
+                calculate_diameter_trend(graph,graph_type,save_dir)
+                calculate_preference(graph,graph_type,save_dir,author_info,article_meta_data)
             calculate_article_power_law(graph,graph_type,save_dir,plt_flag=True,xmin=xmin)
-            calculate_gcc_size(graph,graph_type,save_dir)
             calculate_article_matrix(graph,graph_type,save_dir)
-            calculate_preference(graph,graph_type,save_dir,author_info,article_meta_data)
-            save_degree_list(graph,save_dir,graph_type)
+
             
 
 
@@ -1023,7 +1022,7 @@ def calculate_diameter_trend(graph,graph_type,save_dir):
             }
         except Exception as e:
             continue
-
+    os.makedirs(save_dir,exist_ok=True)
     torch.save(diameter_info,
                os.path.join(save_dir,f"{graph_type}_diameter.pt"))
 

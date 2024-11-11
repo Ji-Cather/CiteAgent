@@ -17,7 +17,7 @@ def evaluate_tasks(
                    task_name, 
                    configs,
                    args,
-              log_dir,
+              log_dir = "LLMGraph/tasks/cache",
               ):
     os.putenv("PYTHONPATH","/mnt2/jijiarui/LLM4Graph")
     
@@ -85,12 +85,12 @@ def run_evaluation():
     })
 
     task_name_args_map = {
-        "llm_agent":["--threshold 500"],
+        # "llm_agent":["--threshold 500"],
+        "llm_agent":[""],
         "cora":["--threshold 5000"],
         "citeseer":["--threshold 10000"],
     }
-    log_dir = f"LLMGraph/tasks/{task_name}/evaluate_cache"
-
+    
     
     for idx, task_name in enumerate(task_name_map.keys()):        
         

@@ -15,10 +15,6 @@ from matplotlib import font_manager as fm
 from scipy import stats
 
 
-
-# 设置全局字体
-plt.rcParams['font.family'] = font_prop.get_name()
-plt.rcParams['font.sans-serif'] = [font_prop.get_name()]
 from statsmodels.formula.api import ols
 from evaluate.article.libs.utils import *
 from evaluate.article.libs.profiling import Profiling
