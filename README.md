@@ -68,27 +68,29 @@ For the experiments outlined in the paper, we provide a script for execution.
 
 
 For the experiments outlined in the paper, we provide a script for execution.
-- **Download the datasets**:
+- **Download the Datasets**:
 
-    Download the datasets from `https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2F9MCZC4&version=DRAFT#`
+    <!-- Download the datasets from `https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2F9MCZC4&version=DRAFT#` -->
+    
+    ```python
+    from modelscope.hub.api import HubApi
+    api = HubApi()
+    api.login('7a2a8a7c-26d0-4293-96a3-72043247a629')
+    from modelscope.msdatasets import MsDataset
+    ds =  MsDataset.load('cather111/citation')
+    ```
     
     Format it like:
     ```
     tasks/
     ├── citeseer/
-        ├── data/
+    │   ├── data/
     │   ├── configs/
     ├── citeseer_1/
     ├── cora/
     ├── cora_1/
     ├── llm_agent/
-│   ├── llm_agent_1/
-│   ├── llm_agent_2/
-│   ├── llm_agent_3/
-│   ├── llm_agent_4/
-│   ├── llm_agent_5/
-│   ├── llm_agent_6/
-│   └── llm_agent_ablation/
+    ├── llm_agent_*/
     ```
 - **Run Simulation Experiments**:
 
