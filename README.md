@@ -70,14 +70,10 @@ We offer support for multiple scholarly search engines, including Generated Pape
 For the experiments outlined in the paper, we provide a script for execution.
 - **Download the Datasets**:
 
-    <!-- Download the datasets from `https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi%3A10.7910%2FDVN%2F9MCZC4&version=DRAFT#` -->
+    <!-- Download the datasets from `https://modelscope.cn/datasets/cather111/citation` -->
     
-    ```python
-    from modelscope.hub.api import HubApi
-    api = HubApi()
-    api.login('7a2a8a7c-26d0-4293-96a3-72043247a629')
-    from modelscope.msdatasets import MsDataset
-    ds =  MsDataset.load('cather111/citation')
+    ```cmd
+    git clone https://oauth2:RxG7vLWFP_NbDhmB9kXG@www.modelscope.cn/datasets/cather111/citation.git
     ```
     
     Format it like:
