@@ -10,7 +10,7 @@
             "temperature": 0.8
         },
         "client_args":{
-            "base_url":""
+            "base_url":"base_url"
         }
     },
     {
@@ -36,7 +36,7 @@
             "temperature": 0.8
         },
         "client_args":{
-            "base_url":""
+            "base_url":"base_url"
         }
     },
     {
@@ -66,12 +66,12 @@
         }
     },
     {
-        "config_name": "vllm",
+        "config_name": "llama3-70b",
         "model_type": "openai_chat",
-        "model_name": "llama3-70B",
+        "model_name": "llama3-70b-8192",
         "api_key": ".*",
         "client_args": {
-            "base_url":""
+            "base_url":"base_url"
         },
         "generate_args": {
             "temperature": 0.8,
@@ -94,10 +94,10 @@
     {
         "config_name": "vllm_8",
         "model_type": "openai_chat",
-        "model_name": "/mnt/jiakai/Download/Meta-Llama-3-8B-Instruct",
+        "model_name": "llama3_8b",
         "api_key": ".*",
         "client_args": {
-            "base_url":""
+            "base_url":"http://127.0.0.1:8001/v1"
         },
         "generate_args": {
             "temperature": 0.8,

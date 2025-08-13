@@ -54,7 +54,6 @@ args = parser.parse_args()  # 解析参数
 
 
 if __name__ == "__main__":
-    
     args = {**vars(args)}    
     agentscope.init(
         project="llmgraph",

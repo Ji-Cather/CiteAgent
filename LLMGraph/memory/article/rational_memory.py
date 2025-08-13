@@ -14,6 +14,9 @@ class RationalMemory(BaseMemory):
     cited_articles:Dict[str,List[float]] ={}
     interested_topics: list = []
 
+    class Config:
+        arbitrary_types_allowed = True
+
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
        

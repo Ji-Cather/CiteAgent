@@ -35,17 +35,10 @@ def calculate_alpha(n, critical_value):
     alpha = np.exp(np.power(critical_value,2)*n/(-0.5))
     return alpha
 
-llm_name_map = {
-        "gpt3.5": "GPT-3.5",
-        "gpt4-mini": "GPT-4o-mini",
-        "vllm": "LLAMA-3-70B",
-        "gt":"Seed"
-    }
 
 
 
 
-task_names_map=list(config_templates_map.keys())
 
 def find_peak(arr):
     n = len(arr)
@@ -71,7 +64,12 @@ def find_peak(arr):
     return -1  # 如果没有峰值，返回-1
 
 
-def draw_power_law(graphs,graph_name,root_dir = "evaluate/visualize/for_paper"):
+def draw_power_law(graphs, 
+                   graph_name,
+                   config_templates_map,
+                   llm_name_map,
+                   root_dir = "evaluate/visualize/for_paper"):
+    task_names_map=list(config_templates_map.keys())
     model_num = len(llm_name_map)
     legend_size = 20
     title_size = 26
@@ -163,14 +161,15 @@ def draw_power_law(graphs,graph_name,root_dir = "evaluate/visualize/for_paper"):
                          markeredgecolor=colors[1],  # Marker edge 
                          label='Linearly-binned Degree',)
         results.plot_pdf(ax=ax[idx_i][idx_j],
-                         color=colors[2], 
-                         linestyle='None',
-                         marker='o', 
-                         linewidth=2, 
-                         markersize=4, 
-                         markerfacecolor=colors[2],  # Marker face color
-                         markeredgecolor=colors[2],  # Marker edge color
-                         label='Log-binned Degree')
+                             color=colors[2], 
+                             linestyle='None',
+                             marker='o', 
+                             linewidth=2, 
+                             markersize=4, 
+                             markerfacecolor=colors[2],  # Marker face color
+                             markeredgecolor=colors[2],  # Marker edge color
+                             label='Log-binned Degree')
+        
 
         
         if idx_i ==0:
@@ -216,9 +215,9 @@ def draw_power_law(graphs,graph_name,root_dir = "evaluate/visualize/for_paper"):
 
 
         if D <= D_01thres:
-            label=f"$//alpha$ = {alpha:.2f}/n$D*$ = {D:.3f}/n$//bar k={avg_degree:.2f}$"
+            label=f"$\\alpha$ = {alpha:.2f}\n$D*$ = {D:.3f}\n$\\bar k={avg_degree:.2f}$"
         else:
-            label=f"$//alpha$ = {alpha:.2f}/n$D$ = {D:.3f}/n$//bar k={avg_degree:.2f}$"
+            label=f"$\\alpha$ = {alpha:.2f}\n$D$ = {D:.3f}\n$\\bar k={avg_degree:.2f}$"
 
         results.power_law.plot_pdf(ax=ax[idx_i][idx_j],
                                 #    color='#79cafb', 
@@ -273,7 +272,7 @@ def draw_power_law(graphs,graph_name,root_dir = "evaluate/visualize/for_paper"):
     # save_path = os.path.join(save_dir,f"{graph_name}_degree_xmin{xmin}.pdf")
     plt.yticks(fontsize=tick_size)
     plt.xticks(fontsize=tick_size)
-    save_path = os.path.join(root_dir,f"{graph_name}_degree_xmin{xmin}_all_2.pdf")
+    save_path = os.path.join(root_dir,f"{graph_name}_degree_xmin{xmin}_all.pdf")
     plt.savefig(save_path)
     plt.clf()
 
@@ -286,13 +285,15 @@ def get_data(task,config):
     return article_meta_info,author_info
 
 
-def plot_powerlaw_fit(root_dir ="evaluate/Graphgraph1"):
+def plot_powerlaw_fit(root_dir ="evaluate/Graph/graph1"):
     config_templates_map ={
     "LLM-Agent":[
-        ("llm_agent_4","search_shuffle_base_gpt3.5"),
-        ("llm_agent_4","search_shuffle_base_gpt4-mini"),
-        # ("llm_agent_2","search_shuffle_base_qwen2"),
-        ("llm_agent_4","search_shuffle_base_vllm"),
+        # ("llm_agent_4","search_shuffle_base_gpt3.5"),
+        # ("llm_agent_4","search_shuffle_base_gpt4-mini"),
+        # ("llm_agent_4","search_shuffle_base_vllm"),
+        ("llm_agent_4","search_shuffle_base_gpt3.5_powerlaw_base"),
+        ("llm_agent_4","search_shuffle_base_gpt4-mini_powerlaw_base"),
+        ("llm_agent_4","search_shuffle_base_vllm_powerlaw_base"),
         ("llm_agent_1","gt"),
     ],
     "Cora":[
@@ -310,6 +311,12 @@ def plot_powerlaw_fit(root_dir ="evaluate/Graphgraph1"):
         ("citeseer_1","gt"),
 
     ],}
+    llm_name_map = {
+        "gpt3.5": "GPT-3.5",
+        "gpt4-mini": "GPT-4o-mini",
+        "vllm": "LLAMA-3-70B",
+        "gt":"Seed"
+    }
     os.makedirs(root_dir,exist_ok=True)
     graphs = []
     for task_name in config_templates_map.keys():
@@ -327,9 +334,9 @@ def plot_powerlaw_fit(root_dir ="evaluate/Graphgraph1"):
             print(graph.number_of_nodes(),graph.number_of_edges())
             graphs.append(graph)
 
-    draw_power_law(graphs,"citation",root_dir =root_dir)
+    draw_power_law(graphs,"citation_1",config_templates_map = config_templates_map,llm_name_map = llm_name_map, root_dir =root_dir)
 
-def plot_powerlaw_fit_large(root_dir ="evaluate/Graphgraph1"):
+def plot_powerlaw_fit_large(root_dir ="evaluate/Graph/graph1"):
     config_templates_map ={
     "Citeseer":[
         ("citeseer_1","fast_gpt3.5"),
@@ -339,6 +346,12 @@ def plot_powerlaw_fit_large(root_dir ="evaluate/Graphgraph1"):
         ("citeseer_1","gt"),
 
     ],
+    }
+    llm_name_map = {
+        "gpt3.5": "GPT-3.5",
+        "gpt4-mini": "GPT-4o-mini",
+        "vllm": "LLAMA-3-70B",
+        "gt":"Seed"
     }
     os.makedirs(root_dir,exist_ok=True)
     graphs = []
@@ -354,8 +367,59 @@ def plot_powerlaw_fit_large(root_dir ="evaluate/Graphgraph1"):
             print(graph.number_of_nodes(),graph.number_of_edges())
             graphs.append(graph)
 
-    draw_power_law(graphs,"citation",root_dir =root_dir)
+    draw_power_law(graphs,"citation_2",config_templates_map = config_templates_map, llm_name_map = llm_name_map,root_dir =root_dir)
+    
+def plot_powerlaw_fit_llmscale(root_dir ="evaluate/Graph/graph1"):
+    config_templates_map ={
+    "LLM-Agent":[
+        # ("llm_agent_4","search_shuffle_base_gpt3.5_powerlaw_base"),
+        # ("llm_agent_4","search_shuffle_base_gpt4-mini_powerlaw_base"),
+        ("llm_agent_4","search_shuffle_base_llama3_8b_powerlaw_base"),
+        ("llm_agent_4","search_shuffle_base_vllm_powerlaw_base"),
+        ("llm_agent_1","gt"),
+    ],
+    "Cora":[
+        # ("cora_1","fast_gpt3.5"),
+        # ("cora_1","fast_gpt4-mini"),
+        ("cora_1","fast_llama3_8b"),
+        ("cora_1","fast_vllm"),
+        ("cora_1","gt"),
+    ],
+    "Citeseer":[
+        # ("citeseer_1","fast_gpt3.5"),
+        # ("citeseer_1","fast_gpt4-mini"),
+        ("citeseer_1","fast_llama3_8b"),
+        ("citeseer_1","fast_vllm"),
+        ("citeseer_1","gt"),
+
+    ],}
+    llm_name_map = {
+        # "gpt3.5": "GPT-3.5",
+        # "gpt4-mini": "GPT-4o-mini",
+        "llama3_8b": "LLAMA-3-8B",
+        "vllm": "LLAMA-3-70B",
+        "gt":"Seed"
+    }
+    os.makedirs(root_dir,exist_ok=True)
+    graphs = []
+    for task_name in config_templates_map.keys():
+        commands = config_templates_map[task_name]
+        if task_name == "LLM-Agent":
+            max_nodes = 1000
+        else:
+            max_nodes = 5000
+        for command in commands:
+            task_name,config = command
+            article_meta_info,author_info = get_data(task_name,config)
+            graph = build_citation_graph(article_meta_info)
+            if graph.number_of_nodes() > max_nodes:
+                graph = graph.subgraph(list(graph.nodes())[:max_nodes])
+            print(graph.number_of_nodes(),graph.number_of_edges())
+            graphs.append(graph)
+
+    draw_power_law(graphs,"citation_4",config_templates_map = config_templates_map,llm_name_map=llm_name_map,root_dir =root_dir)
 
 if __name__ == "__main__":
-    plot_powerlaw_fit()
-    plot_powerlaw_fit_large()
+    # plot_powerlaw_fit()
+    # plot_powerlaw_fit_large()
+    plot_powerlaw_fit_llmscale()

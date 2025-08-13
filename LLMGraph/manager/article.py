@@ -100,6 +100,7 @@ class ArticleManager(BaseManager):
     embeddings: Any
     article_written_num:int = 0
     article_write_configs:dict = {}
+    different_tag_author: bool = False
 
     class Config:
         arbitrary_types_allowed = True
@@ -121,6 +122,7 @@ class ArticleManager(BaseManager):
                   control_profile,
                   online_retriever_kwargs:dict = {},
                   experiment:list = [], # default/shuffle/false cite
+                  different_tag_author: bool = False
                   ):
         
         retriever_kwargs = copy.deepcopy(retriever_kwargs)
@@ -193,7 +195,7 @@ class ArticleManager(BaseManager):
             online_retriever = retriever_registry.from_db(**online_retriever_kwargs)
         else:online_retriever = None
         # embeddings = OpenAIEmbeddings()
-        embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        embeddings = HuggingFaceEmbeddings(model_name="/home/jiarui_ji/.cache/huggingface/transformers/sentence-transformers/all-MiniLM-L6-v2")
         if not os.path.exists(generated_article_dir):
             os.makedirs(generated_article_dir)
             
@@ -231,7 +233,8 @@ class ArticleManager(BaseManager):
            online_retriever = online_retriever,
            dataset = dataset,
            topic_agents = topic_agents,
-           article_write_configs = article_write_configs
+           article_write_configs = article_write_configs,
+           different_tag_author = different_tag_author
            )
     
     def calculate_avg_degree_citation(self):
@@ -780,10 +783,22 @@ You often write about articles about these topics: {topics}.
             for tag in tags:
                 same_tag_author_ids = [author_id for author_id,author_info in author_dict_filtered.items() 
                                        if author_info.get(tag,None) == author_dict_filtered[first_author].get(tag)]
-                
+                if self.different_tag_author:
+                    different_tag_author_ids = [author_id for author_id,author_info in author_dict_filtered.items()
+                                                if author_info.get(tag,None) != author_dict_filtered[first_author].get(tag)]
+                diff_author_id_p =0
                 for same_tag_author in same_tag_author_ids:
                     if same_tag_author not in authors:
                         authors.append(same_tag_author)
+
+                    add_diff = False    
+                    while(self.different_tag_author and random.random() < 0.3 and not add_diff and diff_author_id_p < len(different_tag_author_ids)):
+                        if different_tag_author_ids[diff_author_id_p] not in authors:
+                            authors.append(different_tag_author_ids[diff_author_id_p])
+                            diff_author_id_p +=1
+                            add_diff = True
+                        else:
+                            diff_author_id_p +=1
                     if len(authors) >= threshold:
                         break
 
