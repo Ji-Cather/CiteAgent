@@ -19,8 +19,6 @@ def evaluate_tasks(
                    args,
               log_dir = "LLMGraph/tasks/cache",
               ):
-    os.putenv("PYTHONPATH","/mnt2/jijiarui/LLM4Graph")
-    
     success_configs = []
     failed_configs = []
     
@@ -90,22 +88,6 @@ def run_evaluation():
         "citeseer":["--threshold 5000"],
     }
 
-    # debug
-    task_name_map = {
-        "cora_1": [
-            "fast_gpt3.5",
-            "fast_gpt3.5_different",
-            "fast_gpt4-mini_different",
-            "fast_gpt4-mini",
-            "fast_vllm",
-            "fast_llama3_different"
-        ]
-    }
-    task_name_args_map = {
-        # "llm_agent":["--threshold 500"],
-        # "cora":["--threshold 5000"],
-        "cora_1":["--threshold 5000"],
-    }
     
     for idx, task_name in enumerate(task_name_map.keys()):        
         
@@ -123,23 +105,26 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # # 定义要运行的命令列表
 commands = [
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5 --threshold 5000",
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5_different --threshold 5000",
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini_different --threshold 5000",
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini --threshold 5000",
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_vllm --threshold 5000",
-    # "python evaluate/article/main.py --task citeseer_1 --config fast_llama3_different --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5 --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5_different --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini_different --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_vllm --threshold 5000",
+    "python evaluate/article/main.py --task citeseer_1 --config fast_llama3_different --threshold 5000",
 
-    # "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5 --threshold 5000",
-    # "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5_different --threshold 5000",
-    # "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini_different --threshold 5000",
-    # "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini --threshold 5000",
-    # "python evaluate/article/main.py --task cora_1 --config fast_vllm --threshold 5000",
-    # "python evaluate/article/main.py --task cora_1 --config fast_llama3_different --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5 --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5_different --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini_different --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_vllm --threshold 5000",
+    "python evaluate/article/main.py --task cora_1 --config fast_llama3_different --threshold 5000",
 
     "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt3.5_powerlaw_different --threshold 500",
     "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt4-mini_powerlaw_different --threshold 500",
     "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_vllm_powerlaw_different --threshold 500",
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt3.5 --threshold 500",
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt4-mini --threshold 500",
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_vllm --threshold 500",
 ]
 
 def run_command(cmd):

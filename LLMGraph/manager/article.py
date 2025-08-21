@@ -196,7 +196,7 @@ class ArticleManager(BaseManager):
             online_retriever = retriever_registry.from_db(**online_retriever_kwargs)
         else:online_retriever = None
         # embeddings = OpenAIEmbeddings()
-        embeddings = HuggingFaceEmbeddings(model_name="/home/jiarui_ji/.cache/huggingface/transformers/sentence-transformers/all-MiniLM-L6-v2")
+        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         if not os.path.exists(generated_article_dir):
             os.makedirs(generated_article_dir)
             
@@ -988,11 +988,6 @@ Now respond:
                               embeddings = "default"
                               ):
         
-        
-        # embeddings_list = []
-        # from sentence_transformers import SentenceTransformer as SBert
-        # model = SBert("albert-base-v1")   # 模型大小1.31G
-        # assert len(self.article_loader.docs) == len(self.article_meta_data), "not available article number"
         doc_str_list = []
         if article_num is not None:
             docs = self.article_loader.docs[:article_num]

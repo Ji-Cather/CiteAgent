@@ -210,7 +210,7 @@ def build_relevance_array(article_meta_data:dict):
     from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
     from langchain_community.document_loaders.text import TextLoader
     from sklearn.metrics.pairwise import cosine_similarity
-    embeddings = HuggingFaceEmbeddings(model_name="/home/jiarui_ji/.cache/huggingface/transformers/sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     from LLMGraph.loader.article import DirectoryArticleLoader
     text_loader_kwargs={'autodetect_encoding': True}
     article_loader = DirectoryArticleLoader(

@@ -1,5 +1,5 @@
 # paths = [
-#     "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt3.5/evaluate/country_pub_nums.json",
+#     "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt3.5/evaluate/country_pub_nums.json",
 #     "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_no_author_country_gpt3.5/evaluate/country_pub_nums.json"
 # ]
 from sklearn.preprocessing import StandardScaler,MinMaxScaler
@@ -16,21 +16,21 @@ def gini_coefficient(x):
     return 2 * np.sum((2 * index - n - 1) * x) / (n * x_sum) - (n + 1) / n
 
 paths = [
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt3.5/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_base_gpt3.5/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_no_country_gpt3.5/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_no_country_gpt3.5/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_anonymous_gpt3.5/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_anonymous_gpt3.5/evaluate/in_degrees_country.json"
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt3.5/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_base_gpt3.5/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_no_country_gpt3.5/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_no_country_gpt3.5/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_anonymous_gpt3.5/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_anonymous_gpt3.5/evaluate/in_degrees_country.json"
 ]
 
 paths = [
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_qwen2/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_base_qwen2/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_no_country_qwen2/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_no_country_qwen2/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_1/configs/search_shuffle_anonymous_qwen2/evaluate/in_degrees_country.json",
-    "/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/llm_agent_2/configs/search_shuffle_anonymous_qwen2/evaluate/in_degrees_country.json"
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_qwen2/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_base_qwen2/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_no_country_qwen2/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_no_country_qwen2/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_1/configs/search_shuffle_anonymous_qwen2/evaluate/in_degrees_country.json",
+    "LLMGraph/tasks/llm_agent_2/configs/search_shuffle_anonymous_qwen2/evaluate/in_degrees_country.json"
 ]
 
 
@@ -86,16 +86,16 @@ def gini_all_df():
                 alpha = 0
                 try:
                     config = config_template.format(llm = llm)
-                    path = f"/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/{task}/configs/{config}/evaluate/country_pub_nums.json"
+                    path = f"LLMGraph/tasks/{task}/configs/{config}/evaluate/country_pub_nums.json"
                     rps = readinfo(f"LLMGraph/tasks/{task}/configs/{config}/evaluate/preferences_time.json")
                     cpr = rps["RPS"][-1][-1]
                     country_pub_nums = readinfo(path)
-                    article_meta_info = readinfo(f"/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/{task}/configs/{config}/data/article_meta_info.pt")
+                    article_meta_info = readinfo(f"LLMGraph/tasks/{task}/configs/{config}/data/article_meta_info.pt")
                     if len(article_meta_info)<threshold:
                         continue
                     else:
                         article_meta_info = dict(list(article_meta_info.items())[:threshold])
-                    author_info = readinfo(f"/mnt2/jijiarui/LLM4Graph/LLMGraph/tasks/{task}/configs/{config}/data/author.pt")
+                    author_info = readinfo(f"LLMGraph/tasks/{task}/configs/{config}/data/author.pt")
                     graph = build_citation_graph(article_meta_info)
                     graph = update_citation_graph(graph,article_meta_info,author_info)
                     

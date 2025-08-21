@@ -25,7 +25,9 @@ logs
 # evaluate/experiment
 
 # LLMGraph/tasks/cora/configs/test_config/data/generated_article
-
+zip.sh
 *.log
 test_replace.py
 runs
+chop_pdf.py
+*.out

@@ -56,19 +56,14 @@ def plt_distortion(types:list,
     llm_path_map = {
         "GPT-3.5":"LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt3.5/evaluate",
         "GPT-4o-mini":"LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_gpt4-mini/evaluate",
-        # "LLAMA8B":"LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_llama8b/evaluate",
         "LLAMA-3-70B":"LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_vllm/evaluate",
-        # "QWEN2-70B":"LLMGraph/tasks/llm_agent_1/configs/search_shuffle_base_qwen2/evaluate"
-
         }
     
     
     beta_types = {
         "Base":f"{method}/distortion_llm",
-        # "LLM":"ols",
         "Random":f"{method}/distortion_er", # "distortion_base" 
         "PA":f"{method}/distortion_ba"
-        # "PA":"ols/distortion_ba", # "distortion_base"   
     }
     
     llm_datas = {}
@@ -353,15 +348,15 @@ def plot_betas(llm_datas,
 
 if __name__ == "__main__":
     
-    # for method in ["ols","pearson"]:
-    #     plt_distortion(["country_core","country_used"],
-    #            "evaluate/Graph/graph4",
-    #            method)
+    for method in ["ols","pearson"]:
+        plt_distortion(["country_core","country_used"],
+               "evaluate/Graph/graph4",
+               method)
     for method in ["ols"]:
-        # plt_distortion_dataset(["country_core","country_used"],
-        #         "citeseer",
-        #        "evaluate/Graph/graph4",
-        #        method)
+        plt_distortion_dataset(["country_core","country_used"],
+                "citeseer",
+               "evaluate/Graph/graph4",
+               method)
         plt_distortion_dataset(["country_core","country_used"],
                 "llm_agent",
                "evaluate/Graph/graph4",
