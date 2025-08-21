@@ -255,13 +255,13 @@ The paper you are going to write is about: {topic}
 3. Method: The incorporation of citations within academic writing serves as a technical basis for validating claims, bolstering arguments, and demonstrating the intellectual lineage of ideas.
 """
         citation_part_reasons = """
-1. Because the content of this article is similar to what you are studying.
-2. Because this article has a high number of citations.
-3. Because this article was published recently.
-4. Because the author of this article is a highly cited author.
-5. Because the author of this article is from the same country/region/institution as mine.
-6. Because the article focused on a similar topic of research as mine.
-7. Because the author is a author I known.
+1. Paper Content: Because the content of this article is similar to what you are studying.
+2. Paper Citation: Because this article has a high number of citations.
+3. Paper Timeliness: Because this article was published recently.
+4. Author Citation: Because the author of this article is highly cited.
+5. Author Country: Because the author of this article is from the same country/region/institution as mine.
+6. Paper Topic: Because the article focused on a similar topic of research as mine.
+7. Author Name: Because the author is an author I know.
 """
         citation_part_placements = """
 1. I'm going to place this citation in Introduction. Bring basic concept form other work.

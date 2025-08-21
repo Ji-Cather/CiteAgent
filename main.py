@@ -54,6 +54,11 @@ args = parser.parse_args()  # 解析参数
 
 
 if __name__ == "__main__":
+    import os
+    import openai
+    # openai.base_url = "https://api2.aigcbest.top/v1"
+    openai.base_url = "https://us.ifopen.ai/v1"
+    os.environ["OPENAI_API_BASE"] = openai.base_url
     
     args = {**vars(args)}    
     agentscope.init(

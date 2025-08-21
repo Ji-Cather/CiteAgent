@@ -1,10 +1,10 @@
 import os
 import shutil
-import json
+
 import yaml
 import time
 import openai
-
+import json
 def readinfo(data_dir):
     assert os.path.exists(data_dir),"no such file path: {}".format(data_dir)
     with open(data_dir,'r',encoding = 'utf-8') as f:
@@ -38,7 +38,7 @@ def evaluate_tasks(
         command = command_template.format(config = config,
                                         task = task_name,
                                         )
-        
+        print(command)
         try:
             success_configs.append(config.replace("\(","(").replace("\)",")"))
         except Exception as e:
@@ -86,11 +86,26 @@ def run_evaluation():
 
     task_name_args_map = {
         # "llm_agent":["--threshold 500"],
-        "llm_agent":[""],
-        "cora":["--threshold 5000"],
-        "citeseer":["--threshold 10000"],
+        # "cora":["--threshold 5000"],
+        "citeseer":["--threshold 5000"],
     }
-    
+
+    # debug
+    task_name_map = {
+        "cora_1": [
+            "fast_gpt3.5",
+            "fast_gpt3.5_different",
+            "fast_gpt4-mini_different",
+            "fast_gpt4-mini",
+            "fast_vllm",
+            "fast_llama3_different"
+        ]
+    }
+    task_name_args_map = {
+        # "llm_agent":["--threshold 500"],
+        # "cora":["--threshold 5000"],
+        "cora_1":["--threshold 5000"],
+    }
     
     for idx, task_name in enumerate(task_name_map.keys()):        
         
@@ -103,8 +118,45 @@ def run_evaluation():
                         log_dir = log_dir)
        
             
+import subprocess
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
+# # 定义要运行的命令列表
+commands = [
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5 --threshold 5000",
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt3.5_different --threshold 5000",
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini_different --threshold 5000",
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_gpt4-mini --threshold 5000",
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_vllm --threshold 5000",
+    # "python evaluate/article/main.py --task citeseer_1 --config fast_llama3_different --threshold 5000",
 
+    # "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5 --threshold 5000",
+    # "python evaluate/article/main.py --task cora_1 --config fast_gpt3.5_different --threshold 5000",
+    # "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini_different --threshold 5000",
+    # "python evaluate/article/main.py --task cora_1 --config fast_gpt4-mini --threshold 5000",
+    # "python evaluate/article/main.py --task cora_1 --config fast_vllm --threshold 5000",
+    # "python evaluate/article/main.py --task cora_1 --config fast_llama3_different --threshold 5000",
+
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt3.5_powerlaw_different --threshold 500",
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_gpt4-mini_powerlaw_different --threshold 500",
+    "python evaluate/article/main.py --task llm_agent_1 --config search_shuffle_base_vllm_powerlaw_different --threshold 500",
+]
+
+def run_command(cmd):
+    """执行单个命令并输出结果"""
+    process = subprocess.Popen(cmd, shell=True)
+    process.wait()
+    return cmd, process.returncode
 
 if __name__ == "__main__":
-    run_evaluation()
+    max_workers = 4  # 根据你的CPU核心数调整
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(run_command, cmd) for cmd in commands]
+        for future in as_completed(futures):
+            cmd, retcode = future.result()
+            print(f"Finished: {cmd} with return code {retcode}")
+
+
+
+# if __name__ == "__main__":
+#     run_evaluation()

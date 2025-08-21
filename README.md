@@ -70,11 +70,7 @@ We offer support for multiple scholarly search engines, including Generated Pape
 For the experiments outlined in the paper, we provide a script for execution.
 - **Download the Datasets**:
 
-    <!-- Download the datasets from `https://modelscope.cn/datasets/cather111/citation` -->
-    
-    ```cmd
-    git clone https://oauth2:RxG7vLWFP_NbDhmB9kXG@www.modelscope.cn/datasets/cather111/citation.git
-    ```
+    to be released, please stay tuned.
     
     Format it like:
     ```

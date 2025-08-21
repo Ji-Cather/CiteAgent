@@ -26,5 +26,6 @@ logs
 
 # LLMGraph/tasks/cora/configs/test_config/data/generated_article
 
-
+*.log
+test_replace.py
 runs

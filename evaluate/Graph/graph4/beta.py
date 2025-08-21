@@ -6,7 +6,7 @@ plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['font.sans-serif'] = ['Arial']  # 选择你想要的字体
 import os
 from typing import List
-from evaluate.visualize.article import plot_gini
+# from evaluate.visualize.article import plot_gini
 import networkx as nx
 import matplotlib.dates as mdates
 import pandas as pd
@@ -74,9 +74,9 @@ def plt_distortion(types:list,
     llm_datas = {}
     for llm, path in llm_path_map.items():
         llm_datas[llm] = {}
-        for beta_type, beta_rroot in beta_types.items(): 
-            if beta_rroot != "":
-                root = os.path.join(path,beta_rroot)
+        for beta_type, beta_root in beta_types.items(): 
+            if beta_root != "":
+                root = os.path.join(path,beta_root)
             else:
                 root = path
             
@@ -113,11 +113,108 @@ def plt_distortion(types:list,
                 types=types,
                 group_name=topic,
                 method = method)
+    
+def plt_distortion_dataset(types:list,
+                    dataset = "citeseer",
+                   save_dir:str ="evaluate/article/distortion",
+                   method = "ols"):
+
+    
+    root_dir = f"LLMGraph/tasks/{dataset}_1/configs/"
+    if dataset == "llm_agent":
+        llm_config_beta_types={
+        "GPT-3.5": {
+            "Base": "search_shuffle_base_gpt3.5/evaluate",
+            "Heterogeneous": "search_shuffle_base_gpt3.5_powerlaw_different/evaluate",
+        },
+        "GPT-4o-mini": {
+            "Base": "search_shuffle_base_gpt4-mini/evaluate",
+            "Heterogeneous": "search_shuffle_base_gpt4-mini_powerlaw_different/evaluate",
+        },
+         "LLAMA-3-70B": {
+            "Base": "search_shuffle_base_vllm/evaluate",
+            "Heterogeneous": "search_shuffle_base_vllm_powerlaw_different/evaluate",
+            # "Heterogeneous": "fast_vllm/evaluate",
+        }
+    }
+        end_time = "2029-11"
+    else:
+        llm_config_beta_types={
+            "GPT-3.5": {
+                "Base": "fast_gpt3.5/evaluate",
+                "Heterogeneous": "fast_gpt3.5_different/evaluate",
+            },
+            "GPT-4o-mini": {
+                "Base": "fast_gpt4-mini/evaluate",
+                "Heterogeneous": "fast_gpt4-mini_different/evaluate",
+            },
+            "LLAMA-3-70B": {
+                "Base": "fast_vllm/evaluate",
+                "Heterogeneous": "fast_llama3_different/evaluate",
+                # "Heterogeneous": "fast_vllm/evaluate",
+            }
+        }
+        end_time = "2005-01"
+    
+
+    # beta_types = {
+    #     "Base":f"{method}/distortion_llm",
+    #     # "Random":f"{method}/distortion_er", # "distortion_base" 
+    #     # "PA":f"{method}/distortion_ba"
+    # }
+    # end_time = "2005-01"
+    llm_datas = {}
+    for llm, path in llm_config_beta_types.items():
+        llm_datas[llm] = {}
+        beta_types = llm_config_beta_types[llm]
+        for beta_type, beta_config in beta_types.items(): 
+            root = os.path.join(root_dir,beta_config,f"{method}/distortion_llm")
+            
+            betas_dict = {}
+            for type in types:
+                beta_save_path = os.path.join(root,f"beta_dict_{type}.json")
+                assert os.path.exists(beta_save_path), beta_save_path
+                betas = readinfo(beta_save_path)
+                betas_dict[type] = copy.deepcopy(betas)
+            for topic in betas.keys():
+                beta_data = []
+                error_data = []
+                time_data = []
+                
+                try:
+                    for idx in range(len(betas[topic]["y"])):
+                        if betas_dict[types[0]][topic]["x"][idx] > end_time: 
+                            break
+                        beta_data.append({
+                                type_beta: betas_dict[type_beta][topic]["y"][idx][0] 
+                                for type_beta in betas_dict.keys()}
+                                        )
+                        error_data.append({
+                                type_beta: betas_dict[type_beta][topic]["y"][idx][1] 
+                                for type_beta in betas_dict.keys()}
+                                        )
+                        time_data.append(betas_dict[types[0]][topic]["x"][idx])
+                except:
+                    continue
+               
+            
+            llm_datas[llm][beta_type] = (copy.deepcopy(time_data),
+                                         copy.deepcopy(beta_data),
+                                         copy.deepcopy(error_data)
+                                         )
+    
+    plot_betas(llm_datas,
+               save_dir=save_dir,
+                types=types,
+                group_name=dataset,
+                beta_type_ys =[0.3,0.66],
+                method = method)
         
 
 def plot_betas(llm_datas,
                types:list,
                group_name:str,
+               beta_type_ys = [0.25,0.5,0.75],
                method = "prs",
                save_dir:str = "evaluate/article/distortion"):
     
@@ -233,7 +330,7 @@ def plot_betas(llm_datas,
     # for height, label in zip([0.25,0.75],
     #                          reversed(beta_types)):
     #     fig.text(0.9, height, label, va='center', rotation='vertical', fontsize=22)
-    for height, label in zip([0.25,0.5,0.75],
+    for height, label in zip(beta_type_ys,
                              reversed(beta_types)):
         fig.text(0.9, height, label, va='center', rotation='vertical', fontsize=22)
 
@@ -244,7 +341,7 @@ def plot_betas(llm_datas,
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     group_name = group_name.replace(" ","_").lower()
-    path = os.path.join(save_dir,f"beta_{group_name}_{method}_2.pdf")
+    path = os.path.join(save_dir,f"beta_{group_name}_{method}.pdf")
     # plt.tight_layout()
     plt.savefig(path)
 
@@ -256,7 +353,17 @@ def plot_betas(llm_datas,
 
 if __name__ == "__main__":
     
-    for method in ["ols","pearson"]:
-        plt_distortion(["country_core","country_used"],
-               "evaluate\visualize\for_paper\Graph\graph4",
+    # for method in ["ols","pearson"]:
+    #     plt_distortion(["country_core","country_used"],
+    #            "evaluate/Graph/graph4",
+    #            method)
+    for method in ["ols"]:
+        # plt_distortion_dataset(["country_core","country_used"],
+        #         "citeseer",
+        #        "evaluate/Graph/graph4",
+        #        method)
+        plt_distortion_dataset(["country_core","country_used"],
+                "llm_agent",
+               "evaluate/Graph/graph4",
                method)
+

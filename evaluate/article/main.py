@@ -246,9 +246,9 @@ def visualize_article(
                     save_dir:str,
                     task:str = "llm_agent",
                     threshold:int =1000):
-    if len(article_meta_data) < threshold:
-        return 
-    article_meta_data = dict(list(article_meta_data.items())[:threshold])
+    if len(article_meta_data) > threshold:
+        article_meta_data = dict(list(article_meta_data.items())[:threshold])
+    # article_meta_data = dict(list(article_meta_data.items())[:threshold])
     graphs = build_graphs(article_meta_data,author_info,
                           graph_types=[#"author_citation",
                                     #    "article_citation",
@@ -260,17 +260,19 @@ def visualize_article(
                                        ])
     article_graph = graphs["article_citation"]
     
-    # topic distribution
-    plt_topic_given(task_name=task,article_meta_data=article_meta_data,save_dir=save_dir)
-    # 可视化自引用
-    plot_self_citation(article_graph,save_dir=save_dir)
+    # # topic distribution
+    # plt_topic_given(task_name=task,article_meta_data=article_meta_data,save_dir=save_dir)
+    # # 可视化自引用
+    # plot_self_citation(article_graph,save_dir=save_dir)
 
-    # 可视化原因
-    reason_path = os.path.join(save_root,"reason","reason_info.json")
-    calculate_reason(article_meta_data,reason_path)
+    # # 可视化原因
+    # reason_path = os.path.join(save_root,"reason","reason_info.json")
+    # calculate_reason(article_meta_data,reason_path)
 
     # distortion analysis
-    for method in ["ols","pearson"]:
+    for method in ["ols",
+                #    "pearson"
+                   ]:
         country_types = [
                         # "country_all",
                         "country_core",
@@ -285,24 +287,24 @@ def visualize_article(
                             type=country_type,
                             group=False,
                             method = method)  
-            distortion_count(article_graph, 
-                            article_meta_data,
-                            author_info, 
-                            article_meta_info_path,
-                            save_dir=save_dir,
-                            type=country_type,
-                            group=False,
-                            experiment_ba=True,
-                            method = method)  
-            distortion_count(article_graph, 
-                            article_meta_data,
-                            author_info, 
-                            article_meta_info_path,
-                            save_dir=save_dir,
-                            type=country_type,
-                            group=False,
-                            experiment_er=True,
-                            method = method)  
+            # distortion_count(article_graph, 
+            #                 article_meta_data,
+            #                 author_info, 
+            #                 article_meta_info_path,
+            #                 save_dir=save_dir,
+            #                 type=country_type,
+            #                 group=False,
+            #                 experiment_ba=True,
+            #                 method = method)  
+            # distortion_count(article_graph, 
+            #                 article_meta_data,
+            #                 author_info, 
+            #                 article_meta_info_path,
+            #                 save_dir=save_dir,
+            #                 type=country_type,
+            #                 group=False,
+            #                 experiment_er=True,
+            #                 method = method)  
      
 
     
@@ -526,7 +528,7 @@ def distortion_count(article_graph:nx.DiGraph,
         title:str(idx) for idx,title in enumerate(article_meta_data.keys())} # keep index map
     
     if beta_dict == {}:
-        if "citeseer" in save_dir:
+        if "citeseer" in save_dir or "cora" in save_dir:
             start_time = datetime.strptime("2004-01", "%Y-%m").date()
             end_time = datetime.strptime("2011-01", "%Y-%m").date()
         else:
@@ -589,9 +591,10 @@ def distortion_count(article_graph:nx.DiGraph,
                                             countrys_list,
                                             type,
                                             map_index)
-            
-            betas = run_qap(topic_relevance_array,topic_citation_array,type = method)
-
+            try:
+                betas = run_qap(topic_relevance_array,topic_citation_array,type = method)
+            except:
+                continue
             if betas is None and not np.isnan(betas[0]):
                 continue
             beta_list.append(betas)
@@ -916,9 +919,8 @@ def calculate_all_graph_matrix(
                 xmin:int = 3,
                 threshold = 1000
                 ):
-    if len(article_meta_data) < threshold:
-        return 
-    article_meta_data = dict(list(article_meta_data.items())[:threshold])
+    if len(article_meta_data) > threshold:
+       article_meta_data = dict(list(article_meta_data.items())[:threshold])
     graphs = build_graphs(article_meta_data,
                  author_info, 
                  article_num = article_num,
@@ -1056,18 +1058,18 @@ if __name__ == "__main__":
     
     article_meta_info,author_info = get_data(args.task,args.config)
 
-    calculate_all_graph_matrix(
-                               article_meta_info,
-                               author_info,
-                               save_root,
-                               graph_types=[
-                            "article_citation",
-                            "bibliographic_coupling",
-                            "co_citation",
-                            "author_citation", 
-                            "country_citation",
-                            "co_authorship"
-                            ],
-                            xmin=args.xmin,
-                            threshold=args.threshold)
+    # calculate_all_graph_matrix(
+    #                            article_meta_info,
+    #                            author_info,
+    #                            save_root,
+    #                            graph_types=[
+    #                         "article_citation",
+    #                         "bibliographic_coupling",
+    #                         "co_citation",
+    #                         "author_citation", 
+    #                         "country_citation",
+    #                         "co_authorship"
+    #                         ],
+    #                         xmin=args.xmin,
+    #                         threshold=args.threshold)
     visualize_article(article_meta_info,author_info,save_root,task=args.task,threshold=args.threshold)

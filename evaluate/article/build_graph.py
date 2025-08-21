@@ -210,7 +210,7 @@ def build_relevance_array(article_meta_data:dict):
     from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
     from langchain_community.document_loaders.text import TextLoader
     from sklearn.metrics.pairwise import cosine_similarity
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="/home/jiarui_ji/.cache/huggingface/transformers/sentence-transformers/all-MiniLM-L6-v2")
     from LLMGraph.loader.article import DirectoryArticleLoader
     text_loader_kwargs={'autodetect_encoding': True}
     article_loader = DirectoryArticleLoader(
@@ -425,8 +425,11 @@ def build_citation_group_array(article_meta_data:dict = {},
             if cited_title not in article_meta_data.keys():
                 continue
             cited_node = map_index[cited_title]
-            i_countrys = article_graph.nodes(data=True)[str(idx)]["country"]
-            j_countrys = article_graph.nodes(data=True)[cited_node]["country"]
+            try:
+                i_countrys = article_graph.nodes(data=True)[str(idx)]["country"]
+                j_countrys = article_graph.nodes(data=True)[cited_node]["country"]
+            except:
+                continue
             for i_country in i_countrys:
                 for j_country in j_countrys:
                     try:

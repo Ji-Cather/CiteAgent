@@ -57,7 +57,6 @@ def main(args):
                             ArticleManagerAgent,
                             GroupDiscussAgent,
                             ArticleAgentWrapper,
-                            
                             ],
             local_mode=False,
         )

@@ -1,0 +1,51 @@
+
+def plot_powerlaw_fit_shuffle(root_dir ="evaluate/Graph/graph1"):
+    config_templates_map ={
+    # "LLM-Agent":[
+    #     # ("llm_agent_4","search_shuffle_base_gpt3.5"),
+    #     # ("llm_agent_4","search_shuffle_base_gpt4-mini"),
+    #     # ("llm_agent_4","search_shuffle_base_vllm"),
+    #     ("llm_agent_4","search_shuffle_base_gpt3.5_powerlaw_base"),
+    #     ("llm_agent_4","search_shuffle_base_gpt4-mini_powerlaw_base"),
+    #     ("llm_agent_4","search_shuffle_base_vllm_powerlaw_base"),
+    #     ("llm_agent_1","gt"),
+    # ],
+    "Cora":[
+        ("cora_1","fast_gpt3.5_shuffle"),
+        ("cora_1","fast_gpt4-mini_shuffle"),
+        # ("cora_1","fast_llama8b"),
+        ("cora_1","fast_llama3_shuffle"),
+        ("cora_1","gt"),
+    ],
+    "Citeseer":[
+        ("citeseer_1","fast_gpt3.5_shuffle"),
+        ("citeseer_1","fast_gpt4-mini_shuffle"),
+        # ("citeseer_1","fast_llama8b"),
+        ("citeseer_1","fast_llama3_shuffle"),
+        ("citeseer_1","gt"),
+
+    ],}
+    llm_name_map = {
+        "gpt3.5": "GPT-3.5",
+        "gpt4-mini": "GPT-4o-mini",
+        "vllm": "LLAMA-3-70B",
+        "gt":"Seed"
+    }
+    os.makedirs(root_dir,exist_ok=True)
+    graphs = []
+    for task_name in config_templates_map.keys():
+        commands = config_templates_map[task_name]
+        if task_name == "LLM-Agent":
+            max_nodes = 1000
+        else:
+            max_nodes = 5000
+        for command in commands:
+            task_name,config = command
+            article_meta_info,author_info = get_data(task_name,config)
+            graph = build_citation_graph(article_meta_info)
+            if graph.number_of_nodes() > max_nodes:
+                graph = graph.subgraph(list(graph.nodes())[:max_nodes])
+            print(graph.number_of_nodes(),graph.number_of_edges())
+            graphs.append(graph)
+
+    draw_power_law(graphs,"citation_1",config_templates_map = config_templates_map,llm_name_map = llm_name_map, root_dir =root_dir)

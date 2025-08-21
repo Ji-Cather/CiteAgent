@@ -53,13 +53,13 @@ def draw_cross_llm_explain():
         # 'social': "Social",
     }
 
-    save_root = "evaluate/Graphgraph3/pl_reason_figures/"
+    save_root = "evaluate/Graph/graph3/pl_reason_figures/"
 
     llms_df_map ={
-        "GPT-3.5":pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/gpt3.5/impact_explan_ver1.csv",index_col=0),
-        "GPT-4o.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/gpt4-mini/impact_explan_ver1.csv",index_col=0),
-        "LLAMA-3.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/vllm/impact_explan_ver1.csv",index_col=0),
-        "QWEN2.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/qwen2/impact_explan_ver1.csv",index_col=0),
+        "GPT-3.5":pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/gpt3.5/impact_explan_ver1.csv",index_col=0),
+        "GPT-4o.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/gpt4-mini/impact_explan_ver1.csv",index_col=0),
+        "LLAMA-3.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/vllm/impact_explan_ver1.csv",index_col=0),
+        "QWEN2.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/qwen2/impact_explan_ver1.csv",index_col=0),
     }
 
     for k, df in llms_df_map.items():
@@ -112,16 +112,16 @@ def draw_cross_llm_explain():
     # 布局调整
     # plt.tight_layout()
     plt.subplots_adjust(right=0.7)  # 调整图表以给图例留出空间
-    plt.savefig("evaluate/Graphgraph3/pl_reason_figures/3_llm_agent.pdf")
+    plt.savefig("evaluate/Graph/graph3/pl_reason_figures/3_llm_agent.pdf")
 
 
 
 def draw_KS_cross_llm():
     llms_df_map ={
-        "GPT-3.5":pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/gpt3.5/article_citation_all_power_law.csv",index_col=0),
-        "GPT-4o.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/gpt4-mini/article_citation_all_power_law.csv",index_col=0),
-        "LLAMA-3.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/vllm/article_citation_all_power_law.csv",index_col=0),
-        "QWEN2.": pd.read_csv("evaluate/Graphgraph3/llm_agent_reasons/qwen2/article_citation_all_power_law.csv",index_col=0),
+        "GPT-3.5":pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/gpt3.5/article_citation_all_power_law.csv",index_col=0),
+        "GPT-4o.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/gpt4-mini/article_citation_all_power_law.csv",index_col=0),
+        "LLAMA-3.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/vllm/article_citation_all_power_law.csv",index_col=0),
+        "QWEN2.": pd.read_csv("evaluate/Graph/graph3/llm_agent_reasons/qwen2/article_citation_all_power_law.csv",index_col=0),
     }
     llm_name_map ={
        "gpt3.5":"GPT-3.5",
@@ -152,7 +152,7 @@ def draw_KS_cross_llm():
     # plt.title('Plot with Error Bars')
     plt.legend()
     plt.grid(True)
-    plt.savefig("evaluate/Graphgraph3/pl_reason_figures/3_cross_llm_ks.pdf")
+    plt.savefig("evaluate/Graph/graph3/pl_reason_figures/3_cross_llm_ks.pdf")
 
 
 def draw_llm_distribution():
@@ -165,10 +165,10 @@ def draw_llm_distribution():
         "PL": "power_law"
     }
     llms_path_map = {
-        "GPT-3.5": "evaluate/Graphgraph3/llm_agent_reasons/gpt3.5/",
-        "GPT-4o.": "evaluate/Graphgraph3/llm_agent_reasons/gpt4-mini/",
-        "LLAMA-3.": "evaluate/Graphgraph3/llm_agent_reasons/vllm/",
-        "QWEN2.": "evaluate/Graphgraph3/llm_agent_reasons/qwen2/"
+        "GPT-3.5": "evaluate/Graph/graph3/llm_agent_reasons/gpt3.5/",
+        "GPT-4o.": "evaluate/Graph/graph3/llm_agent_reasons/gpt4-mini/",
+        "LLAMA-3.": "evaluate/Graph/graph3/llm_agent_reasons/vllm/",
+        "QWEN2.": "evaluate/Graph/graph3/llm_agent_reasons/qwen2/"
     }
     llm_name_map = {
         "gpt3.5": "GPT-3.5",
@@ -224,7 +224,7 @@ def draw_llm_distribution():
                                            textprops={'fontsize': 14})
 
         # Save the figure
-        plt.savefig(f"evaluate/Graphgraph3/pl_reason_figures/3_{llm_name}_distribution.pdf")
+        plt.savefig(f"evaluate/Graph/graph3/pl_reason_figures/3_{llm_name}_distribution.pdf")
 
 def draw_llm_distribution_all_ks():
     model_map = {
@@ -245,7 +245,7 @@ def draw_llm_distribution_all_ks():
         "PL": "Power-Law"
     }
 
-    root_data = "evaluate/Graphgraph3/citeseer_1"
+    root_data = "evaluate/Graph/graph3/citeseer_1"
     llm_name_map = {
         "gpt3.5": "GPT-3.5",
         "gpt4-mini": "GPT-4o-mini",
@@ -308,16 +308,16 @@ def draw_llm_distribution_all_ks():
     
     fig.legend(labels=labels[:7], loc='lower center', ncol=4, fontsize=16)
     # Save the figure
-    plt.savefig(f"evaluate/Graphgraph3/pl_reason_figures/3_ks_all_distribution_3.pdf")
+    plt.savefig(f"evaluate/Graph/graph3/pl_reason_figures/3_ks_all_distribution_3.pdf")
     plt.clf()
 
 def draw_llm_change():
     
     llms_path_map = {
-        "GPT-3.5": "evaluate/Graphgraph3/llm_agent_reasons/gpt3.5/",
-        "GPT-4o.": "evaluate/Graphgraph3/llm_agent_reasons/gpt4-mini/",
-        "LLAMA-3.": "evaluate/Graphgraph3/llm_agent_reasons/vllm/",
-        "QWEN2.": "evaluate/Graphgraph3/llm_agent_reasons/qwen2/"
+        "GPT-3.5": "evaluate/Graph/graph3/llm_agent_reasons/gpt3.5/",
+        "GPT-4o.": "evaluate/Graph/graph3/llm_agent_reasons/gpt4-mini/",
+        "LLAMA-3.": "evaluate/Graph/graph3/llm_agent_reasons/vllm/",
+        "QWEN2.": "evaluate/Graph/graph3/llm_agent_reasons/qwen2/"
     }
     llm_name_map = {
         "gpt3.5": "GPT-3.5",
@@ -384,15 +384,15 @@ def draw_llm_change():
     
     fig.legend(labels=labels, loc='lower center', ncol=4, fontsize=16)
     # Save the figure
-    plt.savefig(f"evaluate/Graphgraph3/pl_reason_figures/3_ks_all_change.pdf")
+    plt.savefig(f"evaluate/Graph/graph3/pl_reason_figures/3_ks_all_change.pdf")
 
 def draw_llm_reason():
     
     llms_path_map = {
-        "GPT-3.5": "evaluate/Graphgraph3/llm_agent_reasons/gpt3.5/",
-        "GPT-4o-mini": "evaluate/Graphgraph3/llm_agent_reasons/gpt4-mini/",
-        "LLAMA-3-70B": "evaluate/Graphgraph3/llm_agent_reasons/vllm/",
-        # "QWEN2.": "evaluate/Graphgraph3/llm_agent_reasons/qwen2/"
+        "GPT-3.5": "evaluate/Graph/graph3/llm_agent_reasons/gpt3.5/",
+        "GPT-4o-mini": "evaluate/Graph/graph3/llm_agent_reasons/gpt4-mini/",
+        "LLAMA-3-70B": "evaluate/Graph/graph3/llm_agent_reasons/vllm/",
+        # "QWEN2.": "evaluate/Graph/graph3/llm_agent_reasons/qwen2/"
     }
     llm_name_map = {
         "gpt3.5": "GPT-3.5",
@@ -425,7 +425,7 @@ def draw_llm_reason():
     fig, ax = plt.subplots(1, len(llm_name_map), figsize=(15, 5), sharey=False)
     ax = [ax]
     reasons_llm_counts = [
-        readinfo(os.path.join("evaluate/Graphgraph3/reason/1000nodes", file)) for file in os.listdir("evaluate/Graphgraph3/reason/1000nodes")
+        readinfo(os.path.join("evaluate/Graph/graph3/reason/1000nodes", file)) for file in os.listdir("evaluate/Graph/graph3/reason/1000nodes")
     ]
     
     labels = []
@@ -433,11 +433,11 @@ def draw_llm_reason():
     
     for llm_name, llm_plt_name in llm_name_map.items():
         
-        explain_path = os.path.join(llms_path_map[llm_plt_name], "impact_explan_ver1.csv")
-        df = pd.read_csv(explain_path, index_col=0)
-        reasons_map = df.loc["power_law", columns_map.keys()].to_dict()
-        reasons_map = {columns_map[k]:reasons_map[k] for k in reasons_map.keys()}
-        reasons_map = parse_reason_dict_if(reasons_map)
+        # explain_path = os.path.join(llms_path_map[llm_plt_name], "impact_explan_ver1.csv")
+        # df = pd.read_csv(explain_path, index_col=0)
+        # reasons_map = df.loc["power_law", columns_map.keys()].to_dict()
+        # reasons_map = {columns_map[k]:reasons_map[k] for k in reasons_map.keys()}
+        # reasons_map = parse_reason_dict_if(reasons_map)
         reasons_llm_alls = [reasons_llm_count[llm_name]["all"] for reasons_llm_count in \
         reasons_llm_counts]
 
@@ -466,7 +466,7 @@ def draw_llm_reason():
         ax1.set_title(llm_plt_name, fontsize=18)
         if llm_name == "gpt3.5":
             # ax2.set_ylabel('LLM-CIA', fontsize=16)
-            ax1.set_ylabel('LLM-SA', fontsize=18)
+            ax1.set_ylabel('LLM-SE', fontsize=18)
         for wedge,label in zip(wedges,cols):
             wedge.set_label(label)
             labels.append(label)
@@ -496,7 +496,7 @@ def draw_llm_reason():
     
     fig.legend(labels=cols, loc='lower center', ncol=4, fontsize=18)
     # Save the figure
-    plt.savefig(f"evaluate/Graphgraph3/pl_reason_figures/3_ks_all_reason_4.pdf")
+    plt.savefig(f"evaluate/Graph/graph3/pl_reason_figures/3_ks_all_reason_4.pdf")
 
 
 def parse_reason_dict_if(impact_factor_dict):
@@ -522,5 +522,5 @@ def parse_reason_dict_if(impact_factor_dict):
     return transfered_dict
 
 if __name__ == "__main__":
-    draw_llm_distribution_all_ks()
+    # draw_llm_distribution_all_ks()
     draw_llm_reason()
