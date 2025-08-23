@@ -77,7 +77,7 @@ def load_diameter(root_dir = "evaluate/visualize/for_paper"):
         },
         {
             "args":{"x":"Time",
-                    "y":"Vertice Fraction of GCC"
+                    "y":"Node Fraction of GCC"
                     },
                 "data":{
                 # "clique_p":[v["clique_len"]/v["graph_len"] for v in diameter.values()],
@@ -88,7 +88,7 @@ def load_diameter(root_dir = "evaluate/visualize/for_paper"):
             }
         },
         {
-            "args":{"x":"Number of Vertices",
+            "args":{"x":"Number of Nodes",
                     "y":"Number of Edges"
                     },
                 "data":{
@@ -223,4 +223,4 @@ def calculate_densification_power_law_exponent():
 if __name__ == "__main__":
     # calculate_densification_power_law_exponent()
 
-    load_diameter("evaluate\Graph\graph9")
+    load_diameter("evaluate/Graph/graph9")

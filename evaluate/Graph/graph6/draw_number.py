@@ -76,7 +76,7 @@ def draw_number_split():
             idy += 1
         ax.set_title(llm_name_plot,fontsize=18)
         if idx ==0:
-            ax.set_ylabel('Cumulative Article Count',fontsize=18)
+            ax.set_ylabel('Cumulative Paper Count',fontsize=18)
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
         ax.xaxis.set_major_locator(mdates.MonthLocator(interval=6))  # 
         plt.gcf().autofmt_xdate()

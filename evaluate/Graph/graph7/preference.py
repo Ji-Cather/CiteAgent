@@ -414,7 +414,7 @@ def plot_gt_preference_scr():
                 "united kingdom":"UK",
                 "canada":"CA",
                 "australia":"AU",
-                "germany":"GB",
+                "germany":"DE",
                 "netherlands":"NL",
                 "india":"IN",
                 "france":"FR",

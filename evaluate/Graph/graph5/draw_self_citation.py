@@ -33,7 +33,7 @@ def plot_gt_preference_gini():
                 "united kingdom":"UK",
                 "canada":"CA",
                 "australia":"AU",
-                "germany":"GB",
+                "germany":"DE",
                 "netherlands":"NL",
                 "india":"IN",
                 "france":"FR",
@@ -171,8 +171,8 @@ def plot_distortion_examine():
         ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         ax.legend(loc='best',ncol=1, fontsize=22,frameon=False)
     axs[0].set_title('Real Citation Graph',fontsize = 22)
-    axs[1].set_title('Generated Citation Graph (Base)',fontsize = 22)
-    axs[2].set_title('Generated Citation Graph (E.Author)',fontsize = 22)
+    axs[1].set_title('Generated Graph (Base)',fontsize = 22)
+    axs[2].set_title('Generated Graph (Equal Author)',fontsize = 22)
     axs[2].set_ylim(0, 0.6)
     axs[-1].set_xticks(list(v+width for v in range(len(src_datas.columns)))) 
     axs[-1].set_xticklabels(src_datas.columns,fontsize = 19)
@@ -231,7 +231,7 @@ def get_src_data():
     countrys = {
         "United States":"US",
         "United Kingdom":"UK",
-        "Germany":"GB",
+        "Germany":"DE",
         "China":"CN",
         "Canada":"CA",
         "India":"IN",
@@ -326,7 +326,7 @@ def get_src_data_equal():
     countrys = {
         "United States":"US",
         "United Kingdom":"UK",
-        "Germany":"GB",
+        "Germany":"DE",
         "China":"CN",
         "Canada":"CA",
         "India":"IN",

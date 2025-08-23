@@ -74,7 +74,7 @@ def plot_reason_core_phei_country():
     colors_a = ["#299D8F" ,"#E9C46A" ,"#D87659"]
     error_config = {'ecolor': '0.3'}
     reasons_llm_counts = [
-        readinfo(os.path.join("evaluate/Graphgraph3/reason/1000nodes", file)) for file in os.listdir("evaluate/Graphgraph3/reason/1000nodes")
+        readinfo(os.path.join("evaluate/Graph/graph3/reason/1000nodes", file)) for file in os.listdir("evaluate/Graph/graph3/reason/1000nodes")
     ]
     for country_type, plt_lable in {"core":"Core",
                                     "non_core":"Periphery",
@@ -117,7 +117,7 @@ def plot_reason_core_phei_country():
     # fig.legend(labels=lables[:2], loc='lower center', ncol=4, fontsize=18)
     # ax.legend(loc='best',ncol=2,frameon=False,fontsize=20)
     ax.legend(loc='best',ncol=2,frameon=False,fontsize=20)
-    plt.savefig("evaluate\visualize\for_paper\Graph\graph3\4_reason_country.pdf")
+    plt.savefig("evaluate/Graph/graph3/pl_reason_figures/4_reason_country.pdf")
 
 if __name__ == "__main__":
     plot_reason_core_phei_country()
