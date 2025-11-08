@@ -120,7 +120,7 @@ The degree distribution of citation networks often follows a power-law distribut
 This phenomenon, which captures biases in citation practices[2], is effectively simulated within the CiteAgent framework. Through interactions among LLM-based agents, CiteAgent reproduces this distortion phenomena.
 <!-- ![Citational Distortion](figures/beta_all_ols_2_page-0001.jpg) -->
 <p align="center">
-  <img src="figures/beta_all_ols_2_page-0001.jpg" alt="Citational Distortion" style="width:75%;">  
+  <img src="figures/beta_all_ols.png" alt="Citational Distortion" style="width:75%;">  
   <p align="center"><em>Figure 3: Citational Distortion</em></p>
 </p>
 

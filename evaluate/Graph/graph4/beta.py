@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 
 
 # 设置默认字体
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Arial']  # 选择你想要的字体
+# plt.rcParams['font.family'] = 'sans-serif'
+# plt.rcParams['font.sans-serif'] = ['Arial']  # 选择你想要的字体
 import os
 from typing import List
 # from evaluate.visualize.article import plot_gini
@@ -78,7 +78,7 @@ def plt_distortion(types:list,
             betas_dict = {}
             for type in types:
                 beta_save_path = os.path.join(root,f"beta_dict_{type}.json")
-                assert os.path.exists(beta_save_path)
+                assert os.path.exists(beta_save_path), beta_save_path
                 betas = readinfo(beta_save_path)
                 betas_dict[type] = copy.deepcopy(betas)
             for topic in betas.keys():
@@ -215,7 +215,6 @@ def plot_betas(llm_datas,
     
     beta_type_len = len(llm_datas["GPT-3.5"])
     legend_map ={
-        "country_all":"Core + Periphery",
         "country_core":"Core",
         "country_used":"Core + Periphery"
     }

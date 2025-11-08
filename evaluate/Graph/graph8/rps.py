@@ -139,7 +139,6 @@ def plot_rpss(llm_datas,
     
     beta_type_len = len(llm_datas["GPT-3.5"])
     legend_map ={
-        "country_all":"Core + Periphery",
         "country_core":"Core",
         "country_used":"Core + Periphery"
     }

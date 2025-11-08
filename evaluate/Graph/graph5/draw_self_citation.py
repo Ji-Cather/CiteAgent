@@ -246,7 +246,7 @@ def get_src_data():
         "Singapore":"SG",
         "Saudi Arabia":"SA",
         "Brazil":"BRA",
-        "Switzerland":"SUI",
+        "Switzerland":"CH",
         "Hong Kong":"HK",
         "New Zealand":"NT"
         }
@@ -341,7 +341,7 @@ def get_src_data_equal():
         "Singapore":"SG",
         "Saudi Arabia":"SA",
         "Brazil":"BRA",
-        "Switzerland":"SUI",
+        "Switzerland":"CH",
         "Hong Kong":"HK",
         "New Zealand":"NT"
         }

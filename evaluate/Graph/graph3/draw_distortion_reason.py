@@ -103,7 +103,7 @@ def plot_reason_core_phei_country():
 
     # autolabel(ax, rects1)
     ax.set_xticks(x+width)
-    ax.set_title('Citation Selection based on Country',fontsize=20)
+    ax.set_title('    Citation Selection based on Country',fontsize=20)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
 
