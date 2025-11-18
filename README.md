@@ -1,13 +1,13 @@
 # CiteAgent 
 
-Traditional social science research (SSR) faces several limitations, including restricted experimentation and limited applicability across diverse contexts. Experiments are often confined to tightly controlled lab environments or lack comprehensive environmental control in real-world settings, restricting the ability to gain nuanced insights into the causal mechanisms underlying human behaviors.
+Traditional social science research often faces limitations in experimental control and contextual generalizability, with lab studies lacking ecological validity and field studies offering limited manipulation of variables.
 
-To address these challenges, we introduce a novel LLM-agent-based simulation platform, the CiteAgent framework, designed to simulate academic behavior with a focus on modeling the formation and evolution of citation networks. CiteAgent offers the following advantages:
-(1) Realistic Citation Network Modeling: Captures real-world phenomena in citation dynamics.
-(2) Controlled Experimental Environment: Allows researchers to systematically adjust academic environments.
-(3) Scalable Simulations for Social Science Research: Supports extensive and reproducible simulations that facilitate hypothesis testing and validation. 
+To address this, we introduce **CiteAgent**, an LLM-agent-based platform for simulating citation network dynamics. CiteAgent enables realistic, scalable, and controlled experimentation in academic environments, supporting rigorous hypothesis testing through:
+1. Realistic modeling of citation behaviors;
+2. Precise environmental control for causal analysis;
+3. Scalable, reproducible simulations across diverse research contexts.
 
-
+> CiteAgent is built upon the [AgentScope](https://github.com/agentscope-ai/agentscope) framework. We thank the AgentScope team for providing an excellent, flexible foundation for multi-agent research!
 
 <p align="center">
   <img src="figures/framework.jpg" alt="Citational Distortion" style="width:75%;">  
@@ -133,3 +133,32 @@ This phenomenon, which captures biases in citation practices[2], is effectively 
 ## References
 1. Barabási A L, Albert R. Emergence of scaling in random networks[J]. science, 1999, 286(5439): 509-512.
 2. Gomez C J, Herman A C, Parigi P. Leading countries in global science increasingly receive more citations than other countries doing similar research[J]. Nature Human Behaviour, 2022, 6(7): 919-929.
+
+## Citation
+```bibtex
+@inproceedings{ji-etal-2025-llm,
+    title = "{LLM}-Based Multi-Agent Systems are Scalable Graph Generative Models",
+    author = "Ji, Jiarui  and
+      Lei, Runlin  and
+      Bi, Jialing  and
+      Wei, Zhewei  and
+      Chen, Xu  and
+      Lin, Yankai  and
+      Pan, Xuchen  and
+      Li, Yaliang  and
+      Ding, Bolin",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2025",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-acl.78/",
+    doi = "10.18653/v1/2025.findings-acl.78",
+    pages = "1492--1523",
+    ISBN = "979-8-89176-256-5",
+}
+```
